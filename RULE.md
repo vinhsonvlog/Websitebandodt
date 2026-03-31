@@ -101,3 +101,43 @@
 - Code đúng yêu cầu + qua checklist mục 9.
 - Không tạo regression ở luồng cũ.
 - Cấu trúc code vẫn rõ ràng sau khi thêm tính năng.
+
+## 12) Quy tắc UI/UX
+- Nhất quán:
+  - Dùng chung màu, typography, spacing, border-radius theo design token.
+  - Cùng một hành vi UI phải có cùng cách hiển thị ở mọi màn hình.
+- Phân cấp thị giác:
+  - Mỗi màn hình phải có `1 primary action` rõ ràng.
+  - Tiêu đề, mô tả, nội dung, CTA có cấp độ rõ (không để nhiều điểm nhấn cạnh tranh nhau).
+- Khoảng cách & bố cục:
+  - Dùng hệ spacing 4/8px, tránh đặt giá trị ngẫu nhiên.
+  - Ưu tiên grid/flex rõ ràng, không canh chỉnh bằng margin “chữa cháy”.
+- Form UX:
+  - Label luôn hiển thị, không thay hoàn toàn bằng placeholder.
+  - Validate realtime hợp lý (onBlur/onSubmit), thông báo lỗi cụ thể và gần field lỗi.
+  - Sau submit lỗi, focus vào field lỗi đầu tiên.
+- Trạng thái bắt buộc:
+  - Mọi view có đủ trạng thái: `loading`, `empty`, `error`, `success`.
+  - Nút/action khi loading phải disable và có chỉ báo đang xử lý.
+- Feedback người dùng:
+  - Thao tác thành công/thất bại cần phản hồi tức thời (toast/inline message).
+  - Hành động nguy hiểm (xóa, ghi đè) cần confirm rõ ràng.
+- Accessibility (A11y):
+  - Tất cả control phải dùng được bằng bàn phím (Tab, Enter, Esc).
+  - Có focus state rõ ràng, không tắt outline mặc định nếu không thay thế tương đương.
+  - Độ tương phản màu đạt tối thiểu WCAG AA cho text chính.
+  - Ảnh/icon mang ý nghĩa phải có `alt`/`aria-label` phù hợp.
+- Responsive:
+  - Thiết kế mobile-first; hỗ trợ tối thiểu: mobile (>=360px), tablet (>=768px), desktop (>=1024px).
+  - Không để vỡ layout, tràn chữ, hoặc nút quá nhỏ trên mobile.
+- Nội dung & ngôn ngữ:
+  - Microcopy ngắn, rõ, theo đúng ngữ cảnh hành động.
+  - Thống nhất thuật ngữ (ví dụ: luôn dùng cùng một từ cho cùng một chức năng).
+- Hiệu năng cảm nhận:
+  - Ưu tiên hiển thị nội dung quan trọng trước (progressive rendering).
+  - Tránh animation nặng; animation phải phục vụ ngữ cảnh, thời lượng hợp lý (thường 150-300ms).
+- Không triển khai UI khi thiếu:
+  - Empty state
+  - Error state
+  - Hover/focus/disabled state
+  - Responsive check ở mobile và desktop
