@@ -1,8 +1,8 @@
 import './App.css';
-import CartPage from './pages/CartPage/CartPage';
+import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
 
 function App() {
-  return <CartPage />;
+  return <ProductReviewPage />;
 }
 
 export default App;
