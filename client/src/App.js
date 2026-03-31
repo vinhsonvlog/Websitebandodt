@@ -1,8 +1,8 @@
 import './App.css';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
+import CartPage from './pages/CartPage/CartPage';
 
 function App() {
-  return <ProfilePage />;
+  return <CartPage />;
 }
 
 export default App;

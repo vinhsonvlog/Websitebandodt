@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders profile title', async () => {
+test('renders cart title', async () => {
   render(<App />);
   const titleElement = await screen.findByRole('heading', {
-    name: /ho so ca nhan/i
+    name: /gio hang cua ban/i
   });
   expect(titleElement).toBeInTheDocument();
 });
