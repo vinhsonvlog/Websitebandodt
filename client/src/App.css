@@ -1,38 +1,212 @@
-.App {
-  text-align: center;
+.auth-scene {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background-image:
+    linear-gradient(rgba(8, 37, 109, 0.36), rgba(7, 17, 76, 0.48)),
+    url('https://i.pinimg.com/originals/6d/0e/ac/6d0eac2d5eabeb0d3e3ca525aaca01f3.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
+.auth-scene::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(215, 185, 120, 0.55);
+  border-radius: 4px;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.auth-scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    173deg,
+    transparent 28%,
+    rgba(76, 223, 255, 0.28) 43%,
+    transparent 57%
+  );
+  pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.auth-content {
+  width: min(100%, 980px);
+  position: relative;
+  z-index: 1;
+}
+
+.brand-title {
+  font-family: 'Iceland', sans-serif;
+  margin: 0 0 32px;
+  text-align: center;
+  font-size: clamp(2.9rem, 5.4vw, 4.8rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(238, 247, 255, 0.96);
+  text-shadow: 0 8px 20px rgba(4, 15, 53, 0.45);
+}
+
+.auth-card-wrap {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.auth-card {
+  width: min(100%, 355px);
+  border-radius: 26px;
+  border: 1px solid rgba(136, 205, 255, 0.35);
+  background:
+    linear-gradient(146deg, rgba(83, 121, 236, 0.66), rgba(72, 49, 164, 0.54));
+  box-shadow:
+    0 20px 60px rgba(10, 24, 70, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px 22px 18px;
+  color: #f5f8ff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.auth-card h2 {
+  margin: 0;
+  font-family: 'Iceland', sans-serif;
+  font-size: 2.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid rgba(221, 239, 255, 0.85);
+  width: fit-content;
+  line-height: 1;
+  padding-bottom: 4px;
+}
+
+.auth-welcome {
+  margin: 10px 0 16px;
+  color: rgba(233, 243, 255, 0.9);
+  font-size: 1.9rem;
+}
+
+.auth-card label {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 1rem;
+  color: #f2f6ff;
+}
+
+.auth-card input {
+  width: 100%;
+  height: 46px;
+  border-radius: 8px;
+  border: 1px solid rgba(196, 227, 255, 0.28);
+  background: rgba(217, 236, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.95rem;
+  padding: 0 14px;
+  outline: none;
+}
+
+.auth-card input::placeholder {
+  color: rgba(238, 245, 255, 0.62);
+}
+
+.auth-card input[aria-invalid='true'] {
+  border-color: rgba(255, 118, 143, 0.9);
+}
+
+.form-error {
+  margin: 6px 0 0;
+  color: #ffd1db;
+  font-size: 0.82rem;
+}
+
+.form-error-global {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.auth-helper {
+  margin: 8px 0 16px;
+  text-align: right;
+  color: rgba(226, 240, 255, 0.9);
+  font-size: 0.85rem;
+}
+
+.auth-submit {
+  width: 100%;
+  height: 52px;
+  border: 0;
+  border-radius: 8px;
+  margin-top: 6px;
+  background: #ace5dd;
+  color: #00152c;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.auth-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+  color: rgba(228, 238, 255, 0.93);
+  text-align: center;
+}
+
+.auth-switch button {
+  margin-left: 8px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0;
+}
+
+.user-panel {
+  text-align: center;
+}
+
+.auth-session-line {
+  margin: 12px 0 18px;
+  color: rgba(228, 238, 255, 0.95);
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+
+@media (max-width: 900px) {
+  .brand-title {
+    margin-bottom: 24px;
+    font-size: clamp(2.2rem, 10vw, 3.1rem);
   }
-  to {
-    transform: rotate(360deg);
+
+  .auth-card {
+    padding: 20px 16px 16px;
+  }
+
+  .auth-card h2 {
+    font-size: clamp(2rem, 11vw, 2.5rem);
+  }
+
+  .auth-welcome {
+    font-size: 1.1rem;
+  }
+
+  .auth-card label,
+  .auth-card input,
+  .auth-switch,
+  .auth-switch button,
+  .auth-helper,
+  .auth-submit {
+    font-size: 1rem;
   }
 }
