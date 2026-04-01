@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { login } from '../services/authService';
 import { validateEmail, validatePassword } from '../utils/authValidation';
 
-function Login({ onSwitchToRegister, onAuthSuccess }) {
+function Login({ onSwitchToRegister, onSwitchToForgotPassword, onAuthSuccess }) {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 
@@ -88,7 +88,11 @@ function Login({ onSwitchToRegister, onAuthSuccess }) {
 				/>
 				{errors.password ? <p className="form-error">{errors.password}</p> : null}
 
-				<p className="auth-helper">Quên mật khẩu?</p>
+				<p className="auth-helper">
+					<button type="button" className="auth-inline-action" onClick={onSwitchToForgotPassword}>
+						Quên mật khẩu?
+					</button>
+				</p>
 
 				{formMessage ? <p className="form-error form-error-global">{formMessage}</p> : null}
 

@@ -33,4 +33,12 @@ function register(payload) {
   return request('/api/auth/register', payload);
 }
 
-export { login, register };
+function forgotPassword(payload) {
+  return request('/api/auth/forgot-password', payload);
+}
+
+function resetPassword(payload) {
+  return request('/api/auth/reset-password', payload);
+}
+
+export { login, register, forgotPassword, resetPassword };

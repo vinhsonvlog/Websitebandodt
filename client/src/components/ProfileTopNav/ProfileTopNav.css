@@ -1,0 +1,74 @@
+.profile-nav {
+  background: #191919;
+  border: 1px solid #1e90ff;
+}
+
+.profile-nav__title {
+  padding: 10px 14px;
+  color: #67c8f3;
+  font-size: 28px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.profile-nav__toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  background: #afe9ec;
+}
+
+.profile-nav__logo {
+  font-size: 13px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.profile-nav__button,
+.profile-nav__avatar-button {
+  border: 0;
+  border-radius: 6px;
+  background: #66c7f4;
+  color: #062635;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profile-nav__button:hover,
+.profile-nav__avatar-button:hover {
+  background: #4cb6e8;
+}
+
+.profile-nav__button:focus-visible,
+.profile-nav__avatar-button:focus-visible,
+.profile-nav__search input:focus-visible {
+  outline: 2px solid #005f99;
+  outline-offset: 2px;
+}
+
+.profile-nav__search input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #7f8a90;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.profile-nav__avatar-button {
+  width: 56px;
+  justify-self: start;
+}
+
+@media (min-width: 768px) {
+  .profile-nav__toolbar {
+    grid-template-columns: minmax(70px, 120px) minmax(110px, 150px) 1fr minmax(110px, 150px) minmax(56px, 72px);
+    gap: 12px;
+  }
+
+  .profile-nav__avatar-button {
+    justify-self: center;
+  }
+}

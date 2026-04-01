@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
+
 import {
   clearAuthSession,
   loadAuthSession,
@@ -53,8 +56,11 @@ function App() {
         ) : page === 'login' ? (
           <Login
             onSwitchToRegister={() => setPage('register')}
+            onSwitchToForgotPassword={() => setPage('forgot-password')}
             onAuthSuccess={handleAuthSuccess}
           />
+        ) : page === 'forgot-password' ? (
+          <ForgotPassword onBackToLogin={() => setPage('login')} />
         ) : (
           <Register
             onSwitchToLogin={() => setPage('login')}
@@ -65,5 +71,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
