@@ -1,0 +1,126 @@
+/* HEADER CSS */
+.topbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 15px 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+
+.topbar-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  color: #1d1d1f;
+}
+.logo span { color: #0066cc; } /* Màu primary */
+
+.btn-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e6f2ff;
+  color: #0066cc;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-category:hover { background: #d0e7ff; }
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 4px 6px 4px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-bar:focus-within {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+/* Tìm đoạn này và thay thế nhé */
+.search-bar input {
+  border: none !important;      /* Bắt buộc bỏ viền input */
+  outline: none !important;     /* Bắt buộc bỏ viền xanh mặc định của trình duyệt */
+  box-shadow: none !important;  /* Đảm bảo không có bóng mờ nào bên trong */
+  background: transparent;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 10px;
+  color: #86868b;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.actions .btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-products { 
+  background: #f5f5f7; 
+  color: #1d1d1f; 
+}
+.btn-products:hover { 
+  background: #e5e5ea; 
+}
+.btn-cart { 
+  background: transparent; 
+  color: #1d1d1f; 
+  border: 1px solid #e5e5e5 !important; 
+}
+.btn-cart:hover { 
+  border-color: #1d1d1f !important; 
+}
+.btn-login { 
+  background: #0066cc; 
+  color: white; 
+}
+.btn-login:hover { 
+  background: #005bb5; 
+  transform: translateY(-1px); 
+}
+
+@media (max-width: 768px) {
+  .topbar-content { 
+    flex-wrap: wrap; 
+  }
+  .search-bar { 
+    order: 3; 
+    min-width: 100%; 
+    margin-top: 10px; 
+  }
+}

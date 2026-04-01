@@ -124,6 +124,9 @@ body {
 
 .btn-cart { background: transparent; color: var(--dark); border: 1px solid #e5e5e5; }
 .btn-cart:hover { border-color: var(--dark); }
+
+.btn-products { background: transparent; color: var(--dark); border: 1px solid #e5e5e5; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn-products:hover { border-color: var(--dark); }
 .btn-login { background: var(--primary); color: white; }
 .btn-login:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
@@ -237,6 +240,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   font-size: 14px;
+  text-decoration: none;
 }
 .view-all:hover { text-decoration: underline; }
 

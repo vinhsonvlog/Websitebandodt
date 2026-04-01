@@ -1,5 +1,8 @@
 import './HomePage.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Header from '../../components/Header/Header'; // Điều chỉnh đường dẫn cho đúng thư mục của bạn
+import Footer from '../../components/Footer/Footer'; // Điều chỉnh đường dẫn cho đúng thư mục của bạn
 
 const bestSellingProducts = [
   { name: 'Laptop ASUS Vivobook 15 X1502VA', price: '15.190.000đ', img: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_901.png' },
@@ -29,26 +32,7 @@ export default function HomePage() {
   return (
     <div className="home">
       {/* HEADER */}
-      <header className="topbar">
-        <div className="topbar-content container">
-          <div className="logo">TECH<span>STORE</span></div>
-          <button className="btn-category">
-            <span className="icon">☰</span> Danh mục
-          </button>
-          
-          <div className="search-bar">
-            <input type="text" placeholder="Tìm kiếm sản phẩm giá tốt..." />
-            <button className="search-btn">🔍</button>
-          </div>
-          
-          <div className="actions">
-            <button className="btn btn-cart">
-              <span className="icon">🛒</span> Giỏ hàng
-            </button>
-            <button className="btn btn-login">Đăng nhập</button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="container">
         {/* HERO BANNER */}
@@ -96,7 +80,7 @@ export default function HomePage() {
         <section className="product-section">
           <div className="section-header">
             <h2>Sản phẩm bán chạy</h2>
-            <button className="view-all">Xem tất cả ❯</button>
+            <Link to="/products" className="view-all">Xem tất cả ❯</Link>
           </div>
           <div className="product-grid">
             {bestSellingProducts.map((p, i) => (
@@ -122,60 +106,7 @@ export default function HomePage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="footer">
-        <div className="container footer-grid">
-          {/* Cột 1 */}
-          <div className="footer-col">
-            <h4>Tổng đài hỗ trợ miễn phí</h4>
-            <ul>
-              <li>Mua hàng - bảo hành 1234.5678 <br/>(7h30 - 22h00)</li>
-              <li>Khiếu nại <a href="#">1234.5678</a> <br/>(8h00 - 21h30)</li>
-            </ul>
-            <h4 className="mt-4">Phương thức thanh toán</h4>
-            <div className="payment-methods">
-              <div className="pay-tag">Apple Pay</div>
-              <div className="pay-tag text-blue">VNPAY</div>
-              <div className="pay-tag text-pink">MoMo</div>
-              <div className="pay-tag text-blue-light">OnePay</div>
-              <div className="pay-tag text-green">ZaloPay</div>
-              <div className="pay-tag text-yellow">AlePay</div>
-              <div className="pay-tag text-orange">Kredivo</div>
-              <div className="pay-tag text-red">mPOS</div>
-            </div>
-          </div>
-
-          {/* Cột 2 */}
-          <div className="footer-col">
-            <h4>Thông tin về chính sách</h4>
-            <ul>
-              <li><a href="#">Mua hàng và thanh toán Online</a></li>
-              <li><a href="#">Mua hàng trả góp Online</a></li>
-              <li><a href="#">Mua hàng trả góp bằng thẻ tín dụng</a></li>
-              <li><a href="#">Chính sách giao hàng</a></li>
-              <li><a href="#">Chính sách đổi trả</a></li>
-              <li><a href="#">Tra thông tin bảo hành</a></li>
-              <li><a href="#">Tra cứu hoá đơn điện tử</a></li>
-            </ul>
-          </div>
-
-          {/* Cột 3 */}
-          <div className="footer-col">
-            <h4>Về chúng tôi</h4>
-            <ul>
-              <li><a href="#">Giới thiệu về công ty</a></li>
-              <li><a href="#">Quy chế hoạt động</a></li>
-              <li><a href="#">Dự án Doanh nghiệp</a></li>
-              <li><a href="#">Tin tức khuyến mại</a></li>
-              <li><a href="#">Giới thiệu máy đổi trả</a></li>
-              <li><a href="#">Đại lý uỷ quyền của Apple</a></li>
-              <li><a href="#">Câu hỏi thường gặp</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>© 2026 TechStore. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
