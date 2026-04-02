@@ -1,9 +1,14 @@
 import { useMemo, useState } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import HomePage from './pages/HomePage/HomePage';
+import ProductPage from './pages/ProductDetailPage/ProductDetailPage';
+import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
-import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
 
 import {
   clearAuthSession,
@@ -12,14 +17,12 @@ import {
 } from './utils/authStorage';
 
 function App() {
-  const [page, setPage] = useState('login');
   const [session, setSession] = useState(() => loadAuthSession());
 
   const headline = useMemo(() => {
     if (!session?.user?.email) {
       return 'E-Store';
     }
-
     return `Hi, ${session.user.email}`;
   }, [session]);
 
@@ -32,43 +35,55 @@ function App() {
   const handleLogout = () => {
     clearAuthSession();
     setSession(null);
-    setPage('login');
   };
 
   return (
-    <div className="auth-scene">
-      <main className="auth-content">
-        <h1 className="brand-title">{headline}</h1>
+    <Router>
+      <div className="auth-scene">
+        <main className="auth-content">
+          <h1 className="brand-title">{headline}</h1>
 
-        {session ? (
-          <section className="auth-card-wrap" aria-label="logged in">
-            <div className="auth-card user-panel">
-              <h2>Success</h2>
-              <p className="auth-welcome">You are authenticated.</p>
-              <p className="auth-session-line">
-                Email: <strong>{session.user.email}</strong>
-              </p>
-              <button type="button" className="auth-submit" onClick={handleLogout}>
-                ĐĂNG XUẤT
-              </button>
-            </div>
-          </section>
-        ) : page === 'login' ? (
-          <Login
-            onSwitchToRegister={() => setPage('register')}
-            onSwitchToForgotPassword={() => setPage('forgot-password')}
-            onAuthSuccess={handleAuthSuccess}
-          />
-        ) : page === 'forgot-password' ? (
-          <ForgotPassword onBackToLogin={() => setPage('login')} />
-        ) : (
-          <Register
-            onSwitchToLogin={() => setPage('login')}
-            onAuthSuccess={handleAuthSuccess}
-          />
-        )}
-      </main>
-    </div>
+          <Routes>
+            {/* PUBLIC ROUTES */}
+            <Route
+              path="/login"
+              element={<Login onAuthSuccess={handleAuthSuccess} />}
+            />
+            <Route
+              path="/register"
+              element={<Register onAuthSuccess={handleAuthSuccess} />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword />}
+            />
+
+            {/* PRIVATE / MAIN */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductPage />} />
+            <Route path="/reviews" element={<ProductReviewPage />} />
+
+            {/* OPTIONAL: LOGOUT UI */}
+            <Route
+              path="/profile"
+              element={
+                session ? (
+                  <div className="auth-card user-panel">
+                    <h2>Success</h2>
+                    <p>You are authenticated</p>
+                    <p>Email: {session.user.email}</p>
+                    <button onClick={handleLogout}>ĐĂNG XUẤT</button>
+                  </div>
+                ) : (
+                  <Login onAuthSuccess={handleAuthSuccess} />
+                )
+              }
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
+
 export default App;
