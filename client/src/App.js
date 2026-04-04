@@ -9,6 +9,10 @@ import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import UserDashboard from './pages/Admin/UserDashboard';
+import AddProduct from './pages/Admin/AddProduct';
+import ProductDashboard from './pages/Admin/ProductDashboard';
 
 import {
   clearAuthSession,
@@ -62,6 +66,18 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductPage />} />
             <Route path="/reviews" element={<ProductReviewPage />} />
+            
+            {/* ADMIN ROUTES - ĐÃ SỬA LỖI TẠI ĐÂY */}
+            {/* Khi vào /admin hoặc /admin/products thì hiện danh sách */}
+            <Route path="/admin" element={<ProductDashboard />} />
+            <Route path="/admin/products" element={<ProductDashboard />} />
+            
+            {/* Khi bấm nút thêm mới, đường dẫn là /admin/products/add */}
+            <Route path="/admin/products/add" element={<AddProduct />} />
+            
+            {/* Quản lý người dùng */}
+            <Route path="/admin/users" element={<UserDashboard />} />
+
 
             {/* OPTIONAL: LOGOUT UI */}
             <Route
