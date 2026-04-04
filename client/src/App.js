@@ -3,7 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage/HomePage';
-import ProductPage from './pages/ProductDetailPage/ProductDetailPage';
+import ProductPage from './pages/ProductPage/ProductPage';
+import ComparisonPage from './pages/ComparisonPage/ComparisonPage';
 import ProductReviewPage from './pages/ProductReviewPage/ProductReviewPage';
 
 import Login from './pages/Login';
@@ -61,6 +62,7 @@ function App() {
             {/* PRIVATE / MAIN */}
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductPage />} />
+            <Route path="/comparison" element={<ComparisonPage />} />
             <Route path="/reviews" element={<ProductReviewPage />} />
 
             {/* OPTIONAL: LOGOUT UI */}
