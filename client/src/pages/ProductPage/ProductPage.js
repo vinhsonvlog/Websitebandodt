@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./ProductPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -403,12 +404,14 @@ export default function ProductPage({ session, onLogout }) {
           <div className="product-grid">
             {paginatedProducts.map((product) => (
               <div key={product.id} className="product-item">
-                <div className="product-image">
+                <Link to={`/product/${product.id}`} className="product-image">
                   <img src={product.image} alt={product.name} />
-                </div>
+                </Link>
                 <div className="product-body">
                   <span className="brand-label">{product.brand}</span>
-                  <h2>{product.name}</h2>
+                  <h2>
+                    <Link to={`/product/${product.id}`}>{product.name}</Link>
+                  </h2>
                   <div className="rating-row">
                     <span className="stars">
                       {"★".repeat(product.rating)}
@@ -421,7 +424,9 @@ export default function ProductPage({ session, onLogout }) {
                   </p>
                 </div>
                 <div className="product-actions-row">
-                  <button className="btn-primary">Thêm vào giỏ</button>
+                  <Link to={`/product/${product.id}`} className="btn-primary">
+                    Xem chi tiết
+                  </Link>
                   <label className="compare-checkbox">
                     <input
                       type="checkbox"

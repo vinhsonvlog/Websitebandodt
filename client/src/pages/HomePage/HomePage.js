@@ -6,21 +6,25 @@ import Footer from "../../components/Footer/Footer"; // Điều chỉnh đườn
 
 const bestSellingProducts = [
   {
+    id: 16,
     name: "Laptop ASUS Vivobook 15 X1502VA",
     price: "15.190.000đ",
     img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_901.png",
   },
   {
+    id: 9,
     name: "iPad A16 Wifi 128GB 2025",
     price: "9.110.500đ",
     img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-a16-11-inch_10_.jpg",
   },
   {
+    id: 2,
     name: "iPhone 17 Pro Max 256GB",
     price: "37.690.000đ",
     img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-17-pro-max_3.jpg",
   },
   {
+    id: 21,
     name: "Tai nghe Apple AirPods 4",
     price: "3.433.000đ",
     img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/p/apple-airpods-4-chong-on-chu-dong-thumb.png",
@@ -116,15 +120,21 @@ export default function HomePage({ session, onLogout }) {
             {bestSellingProducts.map((p, i) => (
               <div key={i} className="product-card">
                 <div className="img-box">
-                  <img src={p.img} alt={p.name} />
+                  <Link to={`/product/${p.id}`}>
+                    <img src={p.img} alt={p.name} />
+                  </Link>
                 </div>
                 <div className="product-info">
-                  <h3>{p.name}</h3>
+                  <h3>
+                    <Link to={`/product/${p.id}`}>{p.name}</Link>
+                  </h3>
                   <p className="price">{p.price}</p>
 
                   {/* Thay đổi ở đây: Bọc 2 nút vào div.product-actions */}
                   <div className="product-actions">
-                    <button className="buy-now">Mua ngay</button>
+                    <Link to={`/product/${p.id}`} className="buy-now">
+                      Mua ngay
+                    </Link>
                     <button className="add-to-cart" title="Thêm vào giỏ hàng">
                       🛒
                     </button>
