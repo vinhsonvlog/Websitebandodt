@@ -34,7 +34,7 @@ const bannerImages = [
   "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/690x300_open_iPhone%2017e.png",
 ];
 
-export default function HomePage({ session }) {
+export default function HomePage({ session, onLogout }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextBanner = () =>
@@ -52,7 +52,7 @@ export default function HomePage({ session }) {
   return (
     <div className="home">
       {/* HEADER */}
-      <Header session={session} />
+      <Header session={session} onLogout={onLogout} />
 
       <main className="container">
         {/* HERO BANNER */}

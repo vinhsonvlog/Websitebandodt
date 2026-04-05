@@ -12,6 +12,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import ComparisonPage from "./pages/ComparisonPage/ComparisonPage";
 import ProductReviewPage from "./pages/ProductReviewPage/ProductReviewPage";
+import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -27,7 +28,11 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import MyOrdersPage from "./pages/MyOrdersPage/MyOrdersPage";
 import ChatSupportPage from "./pages/ChatSupportPage/ChatSupportPage";
 
-import { loadAuthSession, saveAuthSession } from "./utils/authStorage";
+import {
+  clearAuthSession,
+  loadAuthSession,
+  saveAuthSession,
+} from "./utils/authStorage";
 
 const AUTH_ROUTES = [
   "/login",
@@ -37,7 +42,7 @@ const AUTH_ROUTES = [
   "/reset-password",
 ];
 
-function AppRoutes({ session, onAuthSuccess }) {
+function AppRoutes({ session, onAuthSuccess, onLogout }) {
   const location = useLocation();
   const isAuthRoute = AUTH_ROUTES.includes(location.pathname);
 
@@ -61,11 +66,21 @@ function AppRoutes({ session, onAuthSuccess }) {
       <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* PRIVATE / MAIN */}
-      <Route path="/" element={<HomePage session={session} />} />
-      <Route path="/products" element={<ProductPage session={session} />} />
+      <Route
+        path="/"
+        element={<HomePage session={session} onLogout={onLogout} />}
+      />
+      <Route
+        path="/products"
+        element={<ProductPage session={session} onLogout={onLogout} />}
+      />
+      <Route
+        path="/product/:id"
+        element={<ProductDetailPage session={session} onLogout={onLogout} />}
+      />
       <Route
         path="/comparison"
-        element={<ComparisonPage session={session} />}
+        element={<ComparisonPage session={session} onLogout={onLogout} />}
       />
       <Route path="/reviews" element={<ProductReviewPage />} />
 
@@ -118,9 +133,18 @@ function App() {
     setSession(nextSession);
   };
 
+  const handleLogout = () => {
+    clearAuthSession();
+    setSession(null);
+  };
+
   return (
     <Router>
-      <AppRoutes session={session} onAuthSuccess={handleAuthSuccess} />
+      <AppRoutes
+        session={session}
+        onAuthSuccess={handleAuthSuccess}
+        onLogout={handleLogout}
+      />
     </Router>
   );
 }

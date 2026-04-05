@@ -125,6 +125,10 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .avatar-circle {
@@ -143,6 +147,51 @@
 
 .avatar-link:hover .avatar-circle {
   transform: translateY(-1px);
+}
+
+.avatar-menu {
+  position: relative;
+}
+
+.avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 190px;
+  background: #ffffff;
+  border: 1px solid #e7ecf3;
+  border-radius: 12px;
+  box-shadow: 0 16px 30px rgba(17, 25, 40, 0.12);
+  padding: 8px;
+  z-index: 200;
+}
+
+.avatar-email {
+  padding: 10px 10px 8px;
+  font-size: 12px;
+  color: #556070;
+  border-bottom: 1px solid #eef2f6;
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+
+.avatar-dropdown-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1d1d1f;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.avatar-dropdown-item:hover {
+  background: #f2f7ff;
+  color: #005bb5;
 }
 
 @media (max-width: 768px) {
