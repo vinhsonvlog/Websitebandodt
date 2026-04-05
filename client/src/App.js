@@ -10,9 +10,12 @@ import {
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import ProductListPage from "./pages/ProductListPage/ProductListPage";
 import ComparisonPage from "./pages/ComparisonPage/ComparisonPage";
 import ProductReviewPage from "./pages/ProductReviewPage/ProductReviewPage";
 import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
+import CartPage from "./pages/CartPage/CartPage";
+import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -45,6 +48,12 @@ const AUTH_ROUTES = [
 function AppRoutes({ session, onAuthSuccess, onLogout }) {
   const location = useLocation();
   const isAuthRoute = AUTH_ROUTES.includes(location.pathname);
+  const requireAuth = (element) =>
+    session ? (
+      element
+    ) : (
+      <Navigate to="/login" replace state={{ from: location }} />
+    );
 
   const headline = useMemo(() => {
     if (!session?.user?.email) {
@@ -56,10 +65,19 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
   const routes = (
     <Routes>
       {/* PUBLIC ROUTES */}
-      <Route path="/login" element={<Login onAuthSuccess={onAuthSuccess} />} />
+      <Route
+        path="/login"
+        element={
+          session ? (
+            <Navigate to="/" replace />
+          ) : (
+            <Login onAuthSuccess={onAuthSuccess} />
+          )
+        }
+      />
       <Route
         path="/register"
-        element={<Register onAuthSuccess={onAuthSuccess} />}
+        element={session ? <Navigate to="/" replace /> : <Register />}
       />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify-otp" element={<VerifyOTP />} />
@@ -68,42 +86,63 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
       {/* PRIVATE / MAIN */}
       <Route
         path="/"
-        element={<HomePage session={session} onLogout={onLogout} />}
+        element={requireAuth(
+          <HomePage session={session} onLogout={onLogout} />,
+        )}
       />
       <Route
         path="/products"
-        element={<ProductPage session={session} onLogout={onLogout} />}
+        element={requireAuth(
+          <ProductListPage session={session} onLogout={onLogout} />,
+        )}
+      />
+      <Route
+        path="/products/:id"
+        element={requireAuth(
+          <ProductDetailPage session={session} onLogout={onLogout} />,
+        )}
       />
       <Route
         path="/product/:id"
-        element={<ProductDetailPage session={session} onLogout={onLogout} />}
+        element={requireAuth(
+          <ProductDetailPage session={session} onLogout={onLogout} />,
+        )}
+      />
+      <Route
+        path="/catalog"
+        element={requireAuth(
+          <ProductPage session={session} onLogout={onLogout} />,
+        )}
       />
       <Route
         path="/comparison"
-        element={<ComparisonPage session={session} onLogout={onLogout} />}
+        element={requireAuth(
+          <ComparisonPage session={session} onLogout={onLogout} />,
+        )}
       />
-      <Route path="/reviews" element={<ProductReviewPage />} />
+      <Route path="/reviews" element={requireAuth(<ProductReviewPage />)} />
+      <Route path="/cart" element={requireAuth(<CartPage />)} />
+      <Route path="/checkout" element={requireAuth(<CheckoutPage />)} />
+      <Route path="/orders" element={requireAuth(<MyOrdersPage />)} />
 
       {/* ADMIN ROUTES */}
-      <Route path="/admin" element={<ProductDashboard />} />
-      <Route path="/admin/products" element={<ProductDashboard />} />
-      <Route path="/admin/products/add" element={<AddProduct />} />
-      <Route path="/admin/users" element={<UserDashboard />} />
+      <Route path="/admin" element={requireAuth(<ProductDashboard />)} />
+      <Route
+        path="/admin/products"
+        element={requireAuth(<ProductDashboard />)}
+      />
+      <Route path="/admin/products/add" element={requireAuth(<AddProduct />)} />
+      <Route path="/admin/users" element={requireAuth(<UserDashboard />)} />
 
       {/* PROFILE UI */}
-      <Route
-        path="/profile"
-        element={
-          session ? <ProfileLayout /> : <Login onAuthSuccess={onAuthSuccess} />
-        }
-      >
+      <Route path="/profile" element={requireAuth(<ProfileLayout />)}>
         <Route index element={<ProfilePage />} />
         <Route path="orders" element={<MyOrdersPage />} />
         <Route path="vouchers" element={<div>Voucher Page (Mock)</div>} />
       </Route>
 
       {/* CHAT SUPPORT UI */}
-      <Route path="/support" element={<ChatSupportPage />} />
+      <Route path="/support" element={requireAuth(<ChatSupportPage />)} />
 
       {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />

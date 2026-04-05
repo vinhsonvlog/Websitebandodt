@@ -2,17 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Danh sách danh mục từ nhánh develop
-const categories = ['Laptop', 'Tablet', 'Điện thoại', 'Âm thanh', 'Phụ kiện'];
+const categories = ["Laptop", "Tablet", "Điện thoại", "Âm thanh", "Phụ kiện"];
 
 export default function Header({ session, onLogout }) {
   const navigate = useNavigate();
-  
+
   // State từ nhánh vinhson (User menu)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
   // State từ nhánh develop (Search & Categories)
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [showCategories, setShowCategories] = useState(false);
 
   const email = session?.user?.email || "";
@@ -41,7 +41,7 @@ export default function Header({ session, onLogout }) {
     if (trimmed) {
       navigate(`/products?search=${encodeURIComponent(trimmed)}`);
     } else {
-      navigate('/products');
+      navigate("/products");
     }
     setShowCategories(false);
   };
@@ -80,7 +80,7 @@ export default function Header({ session, onLogout }) {
           >
             <span className="icon">☰</span> Danh mục
           </button>
-          
+
           {showCategories && (
             <div className="category-list">
               {categories.map((category) => (
@@ -115,8 +115,16 @@ export default function Header({ session, onLogout }) {
           <Link to="/products" className="btn btn-products">
             <span className="icon">📱</span> Sản phẩm
           </Link>
-          
-          <button className="btn btn-cart" type="button">
+
+          <Link to="/support" className="btn btn-products">
+            <span className="icon">💬</span> Hỗ trợ
+          </Link>
+
+          <button
+            className="btn btn-cart"
+            type="button"
+            onClick={() => navigate("/cart")}
+          >
             <span className="icon">🛒</span> Giỏ hàng
           </button>
 
@@ -142,6 +150,13 @@ export default function Header({ session, onLogout }) {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Hồ sơ
+                  </Link>
+                  <Link
+                    to="/orders"
+                    className="avatar-dropdown-item"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Đơn hàng của tôi
                   </Link>
                   <button
                     type="button"

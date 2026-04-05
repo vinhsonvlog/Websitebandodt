@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const userStore = require('../data/store/userStore');
+const userStore = require("../data/store/userStore");
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
@@ -16,14 +16,16 @@ function createServiceError(message, code, status = 400) {
 }
 
 function validateEmail(email) {
-  const normalizedEmail = String(email || '').trim().toLowerCase();
+  const normalizedEmail = String(email || "")
+    .trim()
+    .toLowerCase();
 
   if (!normalizedEmail) {
-    throw createServiceError('Email is required', 'EMAIL_REQUIRED');
+    throw createServiceError("Email is required", "EMAIL_REQUIRED");
   }
 
   if (!EMAIL_REGEX.test(normalizedEmail)) {
-    throw createServiceError('Email format is invalid', 'EMAIL_INVALID');
+    throw createServiceError("Email format is invalid", "EMAIL_INVALID");
   }
 
   return normalizedEmail;
@@ -31,23 +33,29 @@ function validateEmail(email) {
 
 function validatePassword(password) {
   if (!password) {
-    throw createServiceError('Password is required', 'PASSWORD_REQUIRED');
+    throw createServiceError("Password is required", "PASSWORD_REQUIRED");
   }
 
   if (String(password).length < MIN_PASSWORD_LENGTH) {
-    throw createServiceError('Password must be at least 6 characters', 'PASSWORD_TOO_SHORT');
+    throw createServiceError(
+      "Password must be at least 6 characters",
+      "PASSWORD_TOO_SHORT",
+    );
   }
 }
 
 function validateResetCode(code) {
-  const normalizedCode = String(code || '').trim();
+  const normalizedCode = String(code || "").trim();
 
   if (!normalizedCode) {
-    throw createServiceError('Reset code is required', 'RESET_CODE_REQUIRED');
+    throw createServiceError("Reset code is required", "RESET_CODE_REQUIRED");
   }
 
   if (!RESET_CODE_REGEX.test(normalizedCode)) {
-    throw createServiceError('Reset code must contain 6 digits', 'RESET_CODE_INVALID_FORMAT');
+    throw createServiceError(
+      "Reset code must contain 6 digits",
+      "RESET_CODE_INVALID_FORMAT",
+    );
   }
 
   return normalizedCode;
@@ -58,9 +66,18 @@ function generateResetCode() {
 }
 
 function createToken(user) {
-  const secret = process.env.JWT_SECRET;
+  const secret =
+    process.env.JWT_SECRET ||
+    (process.env.NODE_ENV !== "production"
+      ? "dev-insecure-jwt-secret-change-me"
+      : "");
+
   if (!secret) {
-    throw createServiceError('Server JWT is not configured', 'JWT_SECRET_MISSING', 500);
+    throw createServiceError(
+      "Server JWT is not configured. Please set JWT_SECRET environment variable",
+      "JWT_SECRET_MISSING",
+      500,
+    );
   }
 
   return jwt.sign(
@@ -69,7 +86,7 @@ function createToken(user) {
       email: user.email,
     },
     secret,
-    { expiresIn: '1d' }
+    { expiresIn: "1d" },
   );
 }
 
@@ -88,12 +105,15 @@ async function register(payload) {
   validatePassword(payload?.password);
 
   if (payload?.password !== payload?.confirmPassword) {
-    throw createServiceError('Confirm password does not match', 'CONFIRM_PASSWORD_MISMATCH');
+    throw createServiceError(
+      "Confirm password does not match",
+      "CONFIRM_PASSWORD_MISMATCH",
+    );
   }
 
   const existingUser = await userStore.findUserByEmail(normalizedEmail);
   if (existingUser) {
-    throw createServiceError('Email is already registered', 'EMAIL_EXISTS');
+    throw createServiceError("Email is already registered", "EMAIL_EXISTS");
   }
 
   const passwordHash = await bcrypt.hash(payload.password, 10);
@@ -114,12 +134,23 @@ async function login(payload) {
 
   const user = await userStore.findUserByEmail(normalizedEmail);
   if (!user) {
-    throw createServiceError('Email or password is incorrect', 'AUTH_INVALID_CREDENTIALS', 401);
+    throw createServiceError(
+      "Email or password is incorrect",
+      "AUTH_INVALID_CREDENTIALS",
+      401,
+    );
   }
 
-  const isPasswordMatched = await bcrypt.compare(payload.password, user.passwordHash);
+  const isPasswordMatched = await bcrypt.compare(
+    payload.password,
+    user.passwordHash,
+  );
   if (!isPasswordMatched) {
-    throw createServiceError('Email or password is incorrect', 'AUTH_INVALID_CREDENTIALS', 401);
+    throw createServiceError(
+      "Email or password is incorrect",
+      "AUTH_INVALID_CREDENTIALS",
+      401,
+    );
   }
 
   return buildAuthResult(user);
@@ -135,16 +166,21 @@ async function forgotPassword(payload) {
 
   const resetCode = generateResetCode();
   const resetPasswordCodeHash = await bcrypt.hash(resetCode, 10);
-  const resetPasswordExpiresAt = new Date(Date.now() + RESET_CODE_TTL_MS).toISOString();
+  const resetPasswordExpiresAt = new Date(
+    Date.now() + RESET_CODE_TTL_MS,
+  ).toISOString();
 
   await userStore.updateUserByEmail(normalizedEmail, {
     resetPasswordCodeHash,
     resetPasswordExpiresAt,
   });
 
-  const response = { email: normalizedEmail, expiresAt: resetPasswordExpiresAt };
+  const response = {
+    email: normalizedEmail,
+    expiresAt: resetPasswordExpiresAt,
+  };
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     response.resetCode = resetCode;
   }
 
@@ -157,22 +193,40 @@ async function resetPassword(payload) {
   validatePassword(payload?.newPassword);
 
   if (payload?.newPassword !== payload?.confirmPassword) {
-    throw createServiceError('Confirm password does not match', 'CONFIRM_PASSWORD_MISMATCH');
+    throw createServiceError(
+      "Confirm password does not match",
+      "CONFIRM_PASSWORD_MISMATCH",
+    );
   }
 
   const user = await userStore.findUserByEmail(normalizedEmail);
   if (!user?.resetPasswordCodeHash || !user?.resetPasswordExpiresAt) {
-    throw createServiceError('Reset code is invalid or has expired', 'RESET_CODE_INVALID_OR_EXPIRED', 400);
+    throw createServiceError(
+      "Reset code is invalid or has expired",
+      "RESET_CODE_INVALID_OR_EXPIRED",
+      400,
+    );
   }
 
   const expiresAt = new Date(user.resetPasswordExpiresAt).getTime();
   if (Number.isNaN(expiresAt) || expiresAt < Date.now()) {
-    throw createServiceError('Reset code is invalid or has expired', 'RESET_CODE_INVALID_OR_EXPIRED', 400);
+    throw createServiceError(
+      "Reset code is invalid or has expired",
+      "RESET_CODE_INVALID_OR_EXPIRED",
+      400,
+    );
   }
 
-  const isCodeMatched = await bcrypt.compare(resetCode, user.resetPasswordCodeHash);
+  const isCodeMatched = await bcrypt.compare(
+    resetCode,
+    user.resetPasswordCodeHash,
+  );
   if (!isCodeMatched) {
-    throw createServiceError('Reset code is invalid or has expired', 'RESET_CODE_INVALID_OR_EXPIRED', 400);
+    throw createServiceError(
+      "Reset code is invalid or has expired",
+      "RESET_CODE_INVALID_OR_EXPIRED",
+      400,
+    );
   }
 
   const passwordHash = await bcrypt.hash(payload.newPassword, 10);

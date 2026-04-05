@@ -51,6 +51,7 @@ function Login({ onAuthSuccess }) {
       });
 
       onAuthSuccess(response.data);
+      navigate("/", { replace: true });
     } catch (error) {
       setFormMessage(error.message || "Đăng nhập thất bại");
     } finally {
