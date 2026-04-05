@@ -101,19 +101,19 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
       <Route
         path="/product/:id"
         element={
-          <ProductDetailPage />,
+          <ProductDetailPage />
         }
       />
       <Route
         path="/catalog"
         element={
-          <ProductPage/>,
+          <ProductPage/>
         }
       />
       <Route
         path="/comparison"
         element={
-          <ComparisonPage />,
+          <ComparisonPage />
         }
       />
       <Route path="/reviews" element={<ProductReviewPage />} />
