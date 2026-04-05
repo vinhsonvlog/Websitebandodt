@@ -229,7 +229,7 @@ const brands = [
 const ramOptions = ["8GB", "12GB", "16GB", "32GB", "128GB", "256GB", "512GB"];
 const ratingOptions = [3, 4, 5];
 
-export default function ProductPage({ session }) {
+export default function ProductPage({ session, onLogout }) {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedRams, setSelectedRams] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -294,7 +294,7 @@ export default function ProductPage({ session }) {
 
   return (
     <div className="product-category-page">
-      <Header session={session} />
+      <Header session={session} onLogout={onLogout} />
       <main className="category-layout container">
         <aside className="sidebar">
           <div className="sidebar-card">

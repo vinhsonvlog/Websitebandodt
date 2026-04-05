@@ -1,9 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Header({ session }) {
+export default function Header({ session, onLogout }) {
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
   const email = session?.user?.email || "";
   const avatarText = (email.charAt(0) || "U").toUpperCase();
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return undefined;
+    }
+
+    const handleClickOutside = (event) => {
+      if (!menuRef.current?.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  const handleLogoutClick = () => {
+    setIsMenuOpen(false);
+    onLogout?.();
+    navigate("/");
+  };
 
   return (
     <header className="topbar">
@@ -32,14 +59,37 @@ export default function Header({ session }) {
             <span className="icon">🛒</span> Giỏ hàng
           </button>
           {email ? (
-            <Link
-              to="/profile"
-              className="avatar-link"
-              title={email}
-              aria-label="Tài khoản"
-            >
-              <span className="avatar-circle">{avatarText}</span>
-            </Link>
+            <div className="avatar-menu" ref={menuRef}>
+              <button
+                type="button"
+                className="avatar-link"
+                title={email}
+                aria-label="Tài khoản"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+              >
+                <span className="avatar-circle">{avatarText}</span>
+              </button>
+
+              {isMenuOpen ? (
+                <div className="avatar-dropdown" role="menu">
+                  <div className="avatar-email">{email}</div>
+                  <Link
+                    to="/profile"
+                    className="avatar-dropdown-item"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Hồ sơ
+                  </Link>
+                  <button
+                    type="button"
+                    className="avatar-dropdown-item"
+                    onClick={handleLogoutClick}
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              ) : null}
+            </div>
           ) : (
             <Link to="/login" className="btn btn-login">
               Đăng nhập

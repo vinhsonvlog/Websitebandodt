@@ -71,7 +71,7 @@ const allProducts = [
   },
 ];
 
-export default function ComparisonPage({ session }) {
+export default function ComparisonPage({ session, onLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -116,7 +116,7 @@ export default function ComparisonPage({ session }) {
 
   return (
     <div className="comparison-page">
-      <Header session={session} />
+      <Header session={session} onLogout={onLogout} />
 
       <main className="comparison-container">
         {selectedProducts.length === 0 ? (
