@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+// Danh sách danh mục từ nhánh develop
 const categories = ['Laptop', 'Tablet', 'Điện thoại', 'Âm thanh', 'Phụ kiện'];
 
-export default function Header() {
+export default function Header({ session, onLogout }) {
+  const navigate = useNavigate();
+  
+  // State từ nhánh vinhson (User menu)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // State từ nhánh develop (Search & Categories)
   const [query, setQuery] = useState('');
   const [showCategories, setShowCategories] = useState(false);
-  const navigate = useNavigate();
 
+  const email = session?.user?.email || "";
+  const avatarText = (email.charAt(0) || "U").toUpperCase();
+
+  // Logic đóng menu khi click ra ngoài (vinhson)
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const handleClickOutside = (event) => {
+      if (!menuRef.current?.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  // Logic tìm kiếm (develop)
   const handleSearch = (event) => {
     event.preventDefault();
     const trimmed = query.trim();
@@ -19,18 +46,31 @@ export default function Header() {
     setShowCategories(false);
   };
 
+  // Logic chọn danh mục (develop)
   const openCategory = (category) => {
     setShowCategories(false);
     navigate(`/products?category=${encodeURIComponent(category)}`);
   };
 
+  // Logic đăng xuất (vinhson)
+  const handleLogoutClick = () => {
+    setIsMenuOpen(false);
+    onLogout?.();
+    navigate("/");
+  };
+
   return (
     <header className="topbar">
       <div className="topbar-content container">
-        <Link to="/" className="logo" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link
+          to="/"
+          className="logo"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           TECH<span>STORE</span>
         </Link>
 
+        {/* PHẦN DANH MỤC (Cập nhật từ develop) */}
         <div className="category-wrapper">
           <button
             type="button"
@@ -40,6 +80,7 @@ export default function Header() {
           >
             <span className="icon">☰</span> Danh mục
           </button>
+          
           {showCategories && (
             <div className="category-list">
               {categories.map((category) => (
@@ -56,6 +97,7 @@ export default function Header() {
           )}
         </div>
 
+        {/* PHẦN TÌM KIẾM (Cập nhật từ develop) */}
         <form className="search-bar" onSubmit={handleSearch}>
           <input
             type="text"
@@ -73,12 +115,49 @@ export default function Header() {
           <Link to="/products" className="btn btn-products">
             <span className="icon">📱</span> Sản phẩm
           </Link>
+          
           <button className="btn btn-cart" type="button">
             <span className="icon">🛒</span> Giỏ hàng
           </button>
-          <button className="btn btn-login" type="button">
-            Đăng nhập
-          </button>
+
+          {/* PHẦN USER/LOGIN (Cập nhật từ vinhson) */}
+          {email ? (
+            <div className="avatar-menu" ref={menuRef}>
+              <button
+                type="button"
+                className="avatar-link"
+                title={email}
+                aria-label="Tài khoản"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+              >
+                <span className="avatar-circle">{avatarText}</span>
+              </button>
+
+              {isMenuOpen && (
+                <div className="avatar-dropdown" role="menu">
+                  <div className="avatar-email">{email}</div>
+                  <Link
+                    to="/profile"
+                    className="avatar-dropdown-item"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Hồ sơ
+                  </Link>
+                  <button
+                    type="button"
+                    className="avatar-dropdown-item"
+                    onClick={handleLogoutClick}
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="btn btn-login">
+              Đăng nhập
+            </Link>
+          )}
         </div>
       </div>
     </header>

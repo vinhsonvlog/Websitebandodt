@@ -19,14 +19,18 @@ const fallbackColors = [
   { id: 1, name: 'Đêm xanh', priceText: '23.990.000đ', img: 'https://via.placeholder.com/50x50/071e3e/ffffff?text=D' },
 ];
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({ session, onLogout }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  
+  // Lấy dữ liệu sản phẩm động dựa trên ID
   const product = useMemo(() => getProductById(id), [id]);
-  const [activeImage, setActiveImage] = useState(product?.images?.[0] || defaultImages[0]);
+  
+  const [activeImage, setActiveImage] = useState('');
   const [activeVersion, setActiveVersion] = useState(0);
   const [activeColor, setActiveColor] = useState(0);
 
+  // Cập nhật lại state khi sản phẩm thay đổi
   useEffect(() => {
     if (product) {
       setActiveImage(product.images?.[0] || defaultImages[0]);
@@ -38,12 +42,13 @@ export default function ProductDetailPage() {
   const versions = product?.versions || fallbackVersions;
   const colors = product?.colors || fallbackColors;
 
+  // Trường hợp không tìm thấy sản phẩm
   if (!product) {
     return (
       <div className="product-page">
-        <Header />
+        <Header session={session} onLogout={onLogout} />
         <main className="main-content container">
-          <div className="product-card">
+          <div className="product-card" style={{ textAlign: 'center', padding: '50px 0' }}>
             <h2>Sản phẩm không tìm thấy</h2>
             <p>Sản phẩm bạn chọn có thể đã bị xóa hoặc đường dẫn không hợp lệ.</p>
             <button type="button" className="btn-buy-now" onClick={() => navigate('/products')}>
@@ -58,12 +63,14 @@ export default function ProductDetailPage() {
 
   return (
     <div className="product-page">
-      <Header />
+      <Header session={session} onLogout={onLogout} />
+
       <div className="breadcrumb container">
         <span>Trang chủ</span> ❯ <span>{product.category}</span> ❯ <strong className="text-dark">{product.name}</strong>
       </div>
 
       <main className="main-content container">
+        {/* CỘT TRÁI: Hình ảnh và Đặc điểm */}
         <div className="left-column">
           <div className="product-card">
             <div className="image-gallery">
@@ -95,6 +102,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
+        {/* CỘT PHẢI: Thông tin giá và lựa chọn */}
         <div className="right-column product-card">
           <h1 className="product-title">{product.name}</h1>
 
@@ -155,6 +163,7 @@ export default function ProductDetailPage() {
         </div>
       </main>
 
+      {/* PHẦN ĐÁNH GIÁ */}
       <section className="reviews-section container">
         <div className="product-card">
           <h3 className="reviews-title">Đánh giá {product.name}</h3>
@@ -168,7 +177,10 @@ export default function ProductDetailPage() {
                   <div key={star} className="star-row">
                     <span className="star-num">{star} sao</span>
                     <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: star === 5 ? '80%' : star === 4 ? '15%' : '5%' }}></div>
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: star === 5 ? '80%' : star === 4 ? '15%' : '5%' }}
+                      ></div>
                     </div>
                   </div>
                 ))}
@@ -187,7 +199,8 @@ export default function ProductDetailPage() {
                   </div>
                   <div className="review-stars">⭐⭐⭐⭐⭐</div>
                   <p className="review-text">
-                    Máy cực kỳ mượt mà, màn hình hiển thị tuyệt vời. Pin trâu xài cả ngày không hết. Giao hàng cực kỳ nhanh chóng! Rất đáng tiền.
+                    Sản phẩm cực kỳ mượt mà, màn hình hiển thị tuyệt vời. 
+                    Pin trâu xài cả ngày không hết. Rất đáng tiền!
                   </p>
                 </div>
               ))}

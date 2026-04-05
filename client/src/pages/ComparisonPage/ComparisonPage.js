@@ -1,82 +1,85 @@
-import { useState, useEffect } from 'react';
-import './ComparisonPage.css';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import { useState, useEffect } from "react";
+import "./ComparisonPage.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const allProducts = [
   {
     id: 1,
-    name: 'Apple iPhone 15 Pro',
-    brand: 'Apple',
-    price: '23.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg',
-    screen: '6.1 inch Super Retina',
-    mainCamera: '48MP+12MP',
-    frontCamera: '12MP',
-    chip: 'A17 Pro',
-    ram: '16GB',
-    storage: '256GB',
-    battery: '3582 mAh',
-    features: 'iOS 17',
+    name: "Apple iPhone 15 Pro",
+    brand: "Apple",
+    price: "23.990.000đ",
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg",
+    screen: "6.1 inch Super Retina",
+    mainCamera: "48MP+12MP",
+    frontCamera: "12MP",
+    chip: "A17 Pro",
+    ram: "16GB",
+    storage: "256GB",
+    battery: "3582 mAh",
+    features: "iOS 17",
   },
   {
     id: 2,
-    name: 'Samsung Galaxy S24',
-    brand: 'Samsung',
-    price: '19.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg',
-    screen: '6.1 inch Super Amoled',
-    mainCamera: '50MP+12MP',
-    frontCamera: '12MP',
-    chip: 'Snapdragon 8 Gen 3',
-    ram: '12GB',
-    storage: '256GB',
-    battery: '4000 mAh',
-    features: 'Android 14',
+    name: "Samsung Galaxy S24",
+    brand: "Samsung",
+    price: "19.990.000đ",
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg",
+    screen: "6.1 inch Super Amoled",
+    mainCamera: "50MP+12MP",
+    frontCamera: "12MP",
+    chip: "Snapdragon 8 Gen 3",
+    ram: "12GB",
+    storage: "256GB",
+    battery: "4000 mAh",
+    features: "Android 14",
   },
   {
     id: 3,
-    name: 'Google Pixel 8 Pro',
-    brand: 'Google',
-    price: '27.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8_pro.jpg',
-    screen: '6.7 inch Amoled',
-    mainCamera: '50MP+48MP',
-    frontCamera: '10.5MP',
-    chip: 'Google Tensor G3',
-    ram: '12GB',
-    storage: '256GB',
-    battery: '5050 mAh',
-    features: 'Android 14',
+    name: "Google Pixel 8 Pro",
+    brand: "Google",
+    price: "27.990.000đ",
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8_pro.jpg",
+    screen: "6.7 inch Amoled",
+    mainCamera: "50MP+48MP",
+    frontCamera: "10.5MP",
+    chip: "Google Tensor G3",
+    ram: "12GB",
+    storage: "256GB",
+    battery: "5050 mAh",
+    features: "Android 14",
   },
   {
     id: 4,
-    name: 'iPhone XS Max',
-    brand: 'Apple',
-    price: '15.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg',
-    screen: '6.5 inch Super Retina',
-    mainCamera: '12MP+12MP',
-    frontCamera: '7MP',
-    chip: 'A12 Bionic',
-    ram: '4GB',
-    storage: '64GB',
-    battery: '3174 mAh',
-    features: 'iOS 16',
+    name: "iPhone XS Max",
+    brand: "Apple",
+    price: "15.990.000đ",
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg",
+    screen: "6.5 inch Super Retina",
+    mainCamera: "12MP+12MP",
+    frontCamera: "7MP",
+    chip: "A12 Bionic",
+    ram: "4GB",
+    storage: "64GB",
+    battery: "3174 mAh",
+    features: "iOS 16",
   },
 ];
 
-export default function ComparisonPage() {
+export default function ComparisonPage({ session, onLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [availableProducts, setAvailableProducts] = useState(allProducts);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const ids = params.get('ids')?.split(',').map(Number) || [];
-    
+    const ids = params.get("ids")?.split(",").map(Number) || [];
+
     if (ids.length > 0) {
       const products = allProducts.filter((p) => ids.includes(p.id));
       setSelectedProducts(products);
@@ -86,38 +89,41 @@ export default function ComparisonPage() {
   const handleRemoveProduct = (productId) => {
     const updated = selectedProducts.filter((p) => p.id !== productId);
     setSelectedProducts(updated);
-    
+
     if (updated.length === 0) {
-      navigate('/products');
+      navigate("/products");
     } else {
-      const ids = updated.map((p) => p.id).join(',');
+      const ids = updated.map((p) => p.id).join(",");
       navigate(`/comparison?ids=${ids}`);
     }
   };
 
   const handleAddProduct = (product) => {
-    if (selectedProducts.length < 4 && !selectedProducts.find((p) => p.id === product.id)) {
+    if (
+      selectedProducts.length < 4 &&
+      !selectedProducts.find((p) => p.id === product.id)
+    ) {
       const updated = [...selectedProducts, product];
       setSelectedProducts(updated);
-      const ids = updated.map((p) => p.id).join(',');
+      const ids = updated.map((p) => p.id).join(",");
       navigate(`/comparison?ids=${ids}`);
     }
   };
 
   const availableForSelection = allProducts.filter(
-    (p) => !selectedProducts.find((sp) => sp.id === p.id)
+    (p) => !selectedProducts.find((sp) => sp.id === p.id),
   );
 
   return (
     <div className="comparison-page">
-      <Header />
-      
+      <Header session={session} onLogout={onLogout} />
+
       <main className="comparison-container">
         {selectedProducts.length === 0 ? (
           <div className="empty-state">
             <h2>Chưa có sản phẩm để so sánh</h2>
             <p>Chọn ít nhất 2 sản phẩm để bắt đầu so sánh</p>
-            <button onClick={() => navigate('/products')} className="btn-back">
+            <button onClick={() => navigate("/products")} className="btn-back">
               Quay lại danh mục
             </button>
           </div>
@@ -144,7 +150,11 @@ export default function ComparisonPage() {
                           >
                             ✕
                           </button>
-                          <img src={product.image} alt={product.name} className="product-img" />
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="product-img"
+                          />
                         </div>
                       </td>
                     ))}
@@ -152,13 +162,17 @@ export default function ComparisonPage() {
                       <td className="add-product-cell">
                         <div className="add-product-dropdown">
                           <label>Thêm sản phẩm</label>
-                          <select onChange={(e) => {
-                            if (e.target.value) {
-                              const product = allProducts.find((p) => p.id === Number(e.target.value));
-                              if (product) handleAddProduct(product);
-                              e.target.value = '';
-                            }
-                          }}>
+                          <select
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                const product = allProducts.find(
+                                  (p) => p.id === Number(e.target.value),
+                                );
+                                if (product) handleAddProduct(product);
+                                e.target.value = "";
+                              }
+                            }}
+                          >
                             <option value="">Chọn sản phẩm...</option>
                             {availableForSelection.map((p) => (
                               <option key={p.id} value={p.id}>
@@ -285,7 +299,10 @@ export default function ComparisonPage() {
             </div>
 
             <div className="comparison-actions">
-              <button onClick={() => navigate('/products')} className="btn-back-full">
+              <button
+                onClick={() => navigate("/products")}
+                className="btn-back-full"
+              >
                 ← Quay lại danh mục
               </button>
             </div>

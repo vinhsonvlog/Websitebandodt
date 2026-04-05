@@ -3,24 +3,29 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { products } from '../../data/products';
+import { products } from '../../data/products'; // Lấy dữ liệu từ develop
 
+// Lọc sản phẩm nổi bật từ data (develop)
 const bestSellingProducts = products.filter((product) => product.featured).slice(0, 4);
 
 const bannerImages = [
-  'https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/samsung-galaxy-a37-home.png',
-  'https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/690x300_ROI_MacBookNeo.png',
-  'https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/oppofingn6.png',
-  'https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/690x300_open_iPhone%2017e.png',
+  "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/samsung-galaxy-a37-home.png",
+  "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/690x300_ROI_MacBookNeo.png",
+  "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/oppofingn6.png",
+  "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/690x300_open_iPhone%2017e.png",
 ];
 
-export default function HomePage() {
+export default function HomePage({ session, onLogout }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [toast, setToast] = useState('');
   const navigate = useNavigate();
 
-  const nextBanner = () => setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
-  const prevBanner = () => setCurrentIndex((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
+  const nextBanner = () =>
+    setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
+  const prevBanner = () =>
+    setCurrentIndex(
+      (prev) => (prev - 1 + bannerImages.length) % bannerImages.length,
+    );
 
   useEffect(() => {
     const interval = setInterval(nextBanner, 5000);
@@ -59,7 +64,9 @@ export default function HomePage() {
 
   return (
     <div className="home">
-      <Header />
+      {/* Truyền session và onLogout để Header hiển thị đúng trạng thái user */}
+      <Header session={session} onLogout={onLogout} />
+      
       {toast && <div className="toast-message">{toast}</div>}
 
       <main className="container">
@@ -67,18 +74,26 @@ export default function HomePage() {
         <section className="hero-section">
           <div className="slider">
             {bannerImages.map((img, index) => (
-               <img 
-                 key={index}
-                 src={img} 
-                 alt={`Banner ${index}`} 
-                 className={`banner-img ${index === currentIndex ? 'active' : ''}`} 
-               />
+              <img
+                key={index}
+                src={img}
+                alt={`Banner ${index}`}
+                className={`banner-img ${index === currentIndex ? "active" : ""}`}
+              />
             ))}
-            <button className="nav-btn prev" onClick={prevBanner}>‹</button>
-            <button className="nav-btn next" onClick={nextBanner}>›</button>
+            <button className="nav-btn prev" onClick={prevBanner}>
+              ‹
+            </button>
+            <button className="nav-btn next" onClick={nextBanner}>
+              ›
+            </button>
             <div className="dots">
               {bannerImages.map((_, i) => (
-                <span key={i} className={`dot ${i === currentIndex ? 'active' : ''}`} onClick={() => setCurrentIndex(i)}></span>
+                <span
+                  key={i}
+                  className={`dot ${i === currentIndex ? "active" : ""}`}
+                  onClick={() => setCurrentIndex(i)}
+                ></span>
               ))}
             </div>
           </div>
@@ -108,11 +123,14 @@ export default function HomePage() {
         <section className="product-section">
           <div className="section-header">
             <h2>Sản phẩm bán chạy</h2>
-            <Link to="/products" className="view-all">Xem tất cả ❯</Link>
+            <Link to="/products" className="view-all">
+              Xem tất cả ❯
+            </Link>
           </div>
           <div className="product-grid">
             {bestSellingProducts.map((product) => (
               <div key={product.id} className="product-card">
+                {/* Click vào ảnh hoặc tên để xem chi tiết */}
                 <Link to={`/products/${product.id}`} className="product-link">
                   <div className="img-box">
                     <img src={product.image} alt={product.name} />
@@ -121,10 +139,17 @@ export default function HomePage() {
                     <h3>{product.name}</h3>
                   </div>
                 </Link>
+
                 <div className="product-info">
                   <p className="price">{product.priceText}</p>
+                  
+                  {/* Nhóm các nút hành động (vinhson UI) */}
                   <div className="product-actions">
-                    <button type="button" className="buy-now" onClick={() => buyNow(product)}>
+                    <button 
+                      type="button" 
+                      className="buy-now" 
+                      onClick={() => buyNow(product)}
+                    >
                       Mua ngay
                     </button>
                     <button
@@ -143,7 +168,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* FOOTER */}
       <Footer />
     </div>
   );
