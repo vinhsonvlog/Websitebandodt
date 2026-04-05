@@ -15,6 +15,11 @@ import UserDashboard from './pages/Admin/UserDashboard';
 import AddProduct from './pages/Admin/AddProduct';
 import ProductDashboard from './pages/Admin/ProductDashboard';
 
+import ProfileLayout from './components/ProfileLayout/ProfileLayout';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import MyOrdersPage from './pages/MyOrdersPage/MyOrdersPage';
+import ChatSupportPage from './pages/ChatSupportPage/ChatSupportPage';
+
 import {
   clearAuthSession,
   loadAuthSession,
@@ -22,7 +27,7 @@ import {
 } from './utils/authStorage';
 
 function App() {
-  const [session, setSession] = useState(() => loadAuthSession());
+  const [session, setSession] = useState(() => loadAuthSession() || { token: 'mock-token', user: { email: 'demo@user.com' } });
 
   const headline = useMemo(() => {
     if (!session?.user?.email) {
@@ -81,22 +86,20 @@ function App() {
             <Route path="/admin/users" element={<UserDashboard />} />
 
 
-            {/* OPTIONAL: LOGOUT UI */}
+            {/* PROFILE UI */}
             <Route
               path="/profile"
               element={
-                session ? (
-                  <div className="auth-card user-panel">
-                    <h2>Success</h2>
-                    <p>You are authenticated</p>
-                    <p>Email: {session.user.email}</p>
-                    <button onClick={handleLogout}>ĐĂNG XUẤT</button>
-                  </div>
-                ) : (
-                  <Login onAuthSuccess={handleAuthSuccess} />
-                )
+                session ? <ProfileLayout /> : <Login onAuthSuccess={handleAuthSuccess} />
               }
-            />
+            >
+              <Route index element={<ProfilePage />} />
+              <Route path="orders" element={<MyOrdersPage />} />
+              <Route path="vouchers" element={<div>Voucher Page (Mock)</div>} />
+            </Route>
+
+            {/* CHAT SUPPORT UI */}
+            <Route path="/support" element={<ChatSupportPage />} />
           </Routes>
         </main>
       </div>
