@@ -84,12 +84,8 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
       <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* PRIVATE / MAIN */}
-      <Route
-        path="/"
-        element={requireAuth(
-          <HomePage session={session} onLogout={onLogout} />,
-        )}
-      />
+       <Route path="/" element={<HomePage />} />
+
       <Route
         path="/products"
         element={requireAuth(
