@@ -95,7 +95,7 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
       <Route
         path="/products/:id"
         element={
-          <ProductDetailPage />,
+          <ProductDetailPage />
         }
       />
       <Route
