@@ -176,7 +176,7 @@ body {
 .price-box {
   display: flex; align-items: baseline; gap: 15px; margin-bottom: 30px;
 }
-.current-price { font-size: 28px; font-weight: 800; color: var(--primary); }
+.current-price { font-size: 28px; font-weight: 800; color: #d70018; }
 .old-price { font-size: 16px; color: var(--text-muted); text-decoration: line-through; }
 
 /* --- PHẢI: TÙY CHỌN (NÚT XỊN XÒ) --- */
