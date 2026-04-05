@@ -8,7 +8,7 @@ import {
   validatePassword,
 } from "../utils/authValidation";
 
-function Register({ onAuthSuccess }) {
+function Register() {
   const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -73,7 +73,12 @@ function Register({ onAuthSuccess }) {
         confirmPassword: form.confirmPassword,
       });
 
-      onAuthSuccess(response.data);
+      if (response?.success) {
+        navigate("/login", {
+          replace: true,
+          state: { email: form.email.trim(), registered: true },
+        });
+      }
     } catch (error) {
       setFormMessage(error.message || "Đăng ký thất bại");
     } finally {

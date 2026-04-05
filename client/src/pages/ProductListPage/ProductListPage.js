@@ -1,21 +1,22 @@
-import { useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import { products } from '../../data/products';
-import './ProductListPage.css';
+import { useMemo } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import { products } from "../../data/products";
+import "./ProductListPage.css";
 
-const categories = ['Laptop', 'Tablet', 'Điện thoại', 'Âm thanh', 'Phụ kiện'];
+const categories = ["Laptop", "Tablet", "Điện thoại", "Âm thanh", "Phụ kiện"];
 
-export default function ProductListPage() {
+export default function ProductListPage({ session, onLogout }) {
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get('search')?.trim() ?? '';
-  const category = searchParams.get('category') ?? '';
+  const searchTerm = searchParams.get("search")?.trim() ?? "";
+  const category = searchParams.get("category") ?? "";
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesSearch =
-        !searchTerm || product.name.toLowerCase().includes(searchTerm.toLowerCase());
+        !searchTerm ||
+        product.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = !category || product.category === category;
       return matchesSearch && matchesCategory;
     });
@@ -23,7 +24,7 @@ export default function ProductListPage() {
 
   return (
     <div className="product-list-page">
-      <Header />
+      <Header session={session} onLogout={onLogout} />
 
       <main className="container product-list-container">
         <section className="page-header">
@@ -33,8 +34,8 @@ export default function ProductListPage() {
               {category
                 ? `Bạn đang xem ${category}`
                 : searchTerm
-                ? `Kết quả tìm kiếm cho “${searchTerm}”` 
-                : 'Khám phá sản phẩm công nghệ hot nhất hôm nay.'}
+                  ? `Kết quả tìm kiếm cho “${searchTerm}”`
+                  : "Khám phá sản phẩm công nghệ hot nhất hôm nay."}
             </p>
           </div>
           <div className="product-filters">
@@ -42,7 +43,7 @@ export default function ProductListPage() {
             <div className="filter-list">
               <Link
                 to="/products"
-                className={`filter-chip ${category === '' ? 'active' : ''}`}
+                className={`filter-chip ${category === "" ? "active" : ""}`}
               >
                 Tất cả
               </Link>
@@ -50,7 +51,7 @@ export default function ProductListPage() {
                 <Link
                   key={item}
                   to={`/products?category=${encodeURIComponent(item)}`}
-                  className={`filter-chip ${item === category ? 'active' : ''}`}
+                  className={`filter-chip ${item === category ? "active" : ""}`}
                 >
                   {item}
                 </Link>
@@ -75,9 +76,16 @@ export default function ProductListPage() {
                 <div className="product-footer">
                   <div>
                     <div className="product-price">{product.priceText}</div>
-                    {product.oldPriceText && <div className="product-old-price">{product.oldPriceText}</div>}
+                    {product.oldPriceText && (
+                      <div className="product-old-price">
+                        {product.oldPriceText}
+                      </div>
+                    )}
                   </div>
-                  <Link to={`/products/${product.id}`} className="btn btn-details">
+                  <Link
+                    to={`/products/${product.id}`}
+                    className="btn btn-details"
+                  >
                     Xem chi tiết
                   </Link>
                 </div>
@@ -85,7 +93,8 @@ export default function ProductListPage() {
             ))
           ) : (
             <div className="empty-state">
-              Không tìm thấy sản phẩm phù hợp. Vui lòng thử từ khóa khác hoặc chọn danh mục.
+              Không tìm thấy sản phẩm phù hợp. Vui lòng thử từ khóa khác hoặc
+              chọn danh mục.
             </div>
           )}
         </section>
