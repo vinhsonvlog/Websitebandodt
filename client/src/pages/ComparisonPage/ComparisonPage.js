@@ -4,9 +4,76 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
+// Helper function để lấy đường dẫn hình ảnh
+const getProductImage = (productId) => {
+  const imageMap = {
+    1: '/images/products/iphone-xs-max.jpg',
+    2: '/images/products/iphone-15-pro.jpg',
+    3: '/images/products/samsung-s24.jpg',
+  };
+  return imageMap[productId] || '/images/products/placeholder.jpg';
+};
+
 const allProducts = [
   {
     id: 1,
+    name: 'Apple iPhone 15 Pro',
+    brand: 'Apple',
+    price: '23.990.000đ',
+    image: getProductImage(2),
+    screen: '6.1 inch Super Retina',
+    mainCamera: '48MP+12MP',
+    frontCamera: '12MP',
+    chip: 'A17 Pro',
+    ram: '16GB',
+    storage: '256GB',
+    battery: '3582 mAh',
+    features: 'iOS 17',
+  },
+  {
+    id: 2,
+    name: 'Samsung Galaxy S24',
+    brand: 'Samsung',
+    price: '19.990.000đ',
+    image: getProductImage(3),
+    screen: '6.1 inch Super Amoled',
+    mainCamera: '50MP+12MP',
+    frontCamera: '12MP',
+    chip: 'Snapdragon 8 Gen 3',
+    ram: '12GB',
+    storage: '256GB',
+    battery: '4000 mAh',
+    features: 'Android 14',
+  },
+  {
+    id: 3,
+    name: 'Google Pixel 8 Pro',
+    brand: 'Google',
+    price: '27.990.000đ',
+    image: getProductImage(10),
+    screen: '6.7 inch Amoled',
+    mainCamera: '50MP+48MP',
+    frontCamera: '10.5MP',
+    chip: 'Google Tensor G3',
+    ram: '12GB',
+    storage: '256GB',
+    battery: '5050 mAh',
+    features: 'Android 14',
+  },
+  {
+    id: 4,
+    name: 'iPhone XS Max',
+    brand: 'Apple',
+    price: '15.990.000đ',
+    image: getProductImage(1),
+    screen: '6.5 inch Super Retina',
+    mainCamera: '12MP+12MP',
+    frontCamera: '7MP',
+    chip: 'A12 Bionic',
+    ram: '4GB',
+    storage: '64GB',
+    battery: '3174 mAh',
+    features: 'iOS 16',
     name: "Apple iPhone 15 Pro",
     brand: "Apple",
     price: "23.990.000đ",
