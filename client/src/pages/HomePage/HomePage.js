@@ -1,31 +1,12 @@
-import "./HomePage.css";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Header from "../../components/Header/Header"; // Điều chỉnh đường dẫn cho đúng thư mục của bạn
-import Footer from "../../components/Footer/Footer"; // Điều chỉnh đường dẫn cho đúng thư mục của bạn
+import './HomePage.css';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import { products } from '../../data/products'; // Lấy dữ liệu từ develop
 
-const bestSellingProducts = [
-  {
-    name: "Laptop ASUS Vivobook 15 X1502VA",
-    price: "15.190.000đ",
-    img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_901.png",
-  },
-  {
-    name: "iPad A16 Wifi 128GB 2025",
-    price: "9.110.500đ",
-    img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-a16-11-inch_10_.jpg",
-  },
-  {
-    name: "iPhone 17 Pro Max 256GB",
-    price: "37.690.000đ",
-    img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-17-pro-max_3.jpg",
-  },
-  {
-    name: "Tai nghe Apple AirPods 4",
-    price: "3.433.000đ",
-    img: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/p/apple-airpods-4-chong-on-chu-dong-thumb.png",
-  },
-];
+// Lọc sản phẩm nổi bật từ data (develop)
+const bestSellingProducts = products.filter((product) => product.featured).slice(0, 4);
 
 const bannerImages = [
   "https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:100/plain/https://dashboard.cellphones.com.vn/storage/samsung-galaxy-a37-home.png",
@@ -36,6 +17,8 @@ const bannerImages = [
 
 export default function HomePage({ session, onLogout }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [toast, setToast] = useState('');
+  const navigate = useNavigate();
 
   const nextBanner = () =>
     setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
@@ -49,10 +32,42 @@ export default function HomePage({ session, onLogout }) {
     return () => clearInterval(interval);
   }, []);
 
+  const showToast = (message) => {
+    setToast(message);
+    window.setTimeout(() => setToast(''), 2800);
+  };
+
+  const addToCart = (product) => {
+    const savedCart = JSON.parse(window.localStorage.getItem('shop_cart') || '[]');
+    const nextCart = [...savedCart];
+    const existingItem = nextCart.find((item) => item.id === product.id);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      nextCart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.image,
+        quantity: 1,
+      });
+    }
+
+    window.localStorage.setItem('shop_cart', JSON.stringify(nextCart));
+    showToast(`Đã thêm ${product.name} vào giỏ hàng`);
+  };
+
+  const buyNow = (product) => {
+    navigate(`/products/${product.id}`);
+  };
+
   return (
     <div className="home">
-      {/* HEADER */}
+      {/* Truyền session và onLogout để Header hiển thị đúng trạng thái user */}
       <Header session={session} onLogout={onLogout} />
+      
+      {toast && <div className="toast-message">{toast}</div>}
 
       <main className="container">
         {/* HERO BANNER */}
@@ -113,19 +128,36 @@ export default function HomePage({ session, onLogout }) {
             </Link>
           </div>
           <div className="product-grid">
-            {bestSellingProducts.map((p, i) => (
-              <div key={i} className="product-card">
-                <div className="img-box">
-                  <img src={p.img} alt={p.name} />
-                </div>
-                <div className="product-info">
-                  <h3>{p.name}</h3>
-                  <p className="price">{p.price}</p>
+            {bestSellingProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                {/* Click vào ảnh hoặc tên để xem chi tiết */}
+                <Link to={`/products/${product.id}`} className="product-link">
+                  <div className="img-box">
+                    <img src={product.image} alt={product.name} />
+                  </div>
+                  <div className="product-info">
+                    <h3>{product.name}</h3>
+                  </div>
+                </Link>
 
-                  {/* Thay đổi ở đây: Bọc 2 nút vào div.product-actions */}
+                <div className="product-info">
+                  <p className="price">{product.priceText}</p>
+                  
+                  {/* Nhóm các nút hành động (vinhson UI) */}
                   <div className="product-actions">
-                    <button className="buy-now">Mua ngay</button>
-                    <button className="add-to-cart" title="Thêm vào giỏ hàng">
+                    <button 
+                      type="button" 
+                      className="buy-now" 
+                      onClick={() => buyNow(product)}
+                    >
+                      Mua ngay
+                    </button>
+                    <button
+                      type="button"
+                      className="add-to-cart"
+                      title="Thêm vào giỏ hàng"
+                      onClick={() => addToCart(product)}
+                    >
                       🛒
                     </button>
                   </div>
@@ -136,7 +168,6 @@ export default function HomePage({ session, onLogout }) {
         </section>
       </main>
 
-      {/* FOOTER */}
       <Footer />
     </div>
   );
