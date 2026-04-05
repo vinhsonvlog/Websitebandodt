@@ -3,6 +3,35 @@ import './ProductPage.css';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import ProductCarousel from '../../components/ProductCarousel/ProductCarousel';
+
+// Helper function để lấy đường dẫn hình ảnh
+const getProductImage = (productId) => {
+  const imageMap = {
+    1: '/images/products/iphone-xs-max.jpg',
+    2: '/images/products/iphone-15-pro.jpg',
+    3: '/images/products/samsung-s24.jpg',
+    4: '/images/products/samsung-a35.jpg',
+    5: '/images/products/laptop-sony.jpg',
+    6: '/images/products/laptop-dell.jpg',
+    7: '/images/products/iphone-15.jpg',
+    8: '/images/products/samsung-s23-ultra.jpg',
+    9: '/images/products/ipad-air.jpg',
+    10: '/images/products/google-pixel-8.jpg',
+    11: '/images/products/macbook-air-m2.jpg',
+    12: '/images/products/samsung-fold-5.jpg',
+    13: '/images/products/iphone-14-pro-max.jpg',
+    14: '/images/products/samsung-a54.jpg',
+    15: '/images/products/oneplus-12.jpg',
+    16: '/images/products/asus-vivobook.jpg',
+    17: '/images/products/iphone-13-mini.jpg',
+    18: '/images/products/samsung-z-flip.jpg',
+    19: '/images/products/google-pixel-tablet.jpg',
+    20: '/images/products/sony-xperia-1.jpg',
+    21: '/images/products/nothing-phone.jpg',
+  };
+  return imageMap[productId] || '/images/products/placeholder.jpg';
+};
 
 const products = [
   {
@@ -12,7 +41,7 @@ const products = [
     ram: '16GB',
     price: 1000,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg',
+    image: getProductImage(1),
   },
   {
     id: 2,
@@ -21,7 +50,7 @@ const products = [
     ram: '32GB',
     price: 2000,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg',
+    image: getProductImage(2),
   },
   {
     id: 3,
@@ -30,7 +59,7 @@ const products = [
     ram: '16GB',
     price: 2400,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg',
+    image: getProductImage(3),
   },
   {
     id: 4,
@@ -39,7 +68,7 @@ const products = [
     ram: '8GB',
     price: 700,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_galaxy_a35.jpg',
+    image: getProductImage(4),
   },
   {
     id: 5,
@@ -48,7 +77,7 @@ const products = [
     ram: '128GB',
     price: 2200,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_sony.jpg',
+    image: getProductImage(5),
   },
   {
     id: 6,
@@ -57,7 +86,7 @@ const products = [
     ram: '256GB',
     price: 3000,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_dell.jpg',
+    image: getProductImage(6),
   },
   {
     id: 7,
@@ -66,7 +95,7 @@ const products = [
     ram: '16GB',
     price: 1500,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_select_black_1.jpg',
+    image: getProductImage(7),
   },
   {
     id: 8,
@@ -75,7 +104,7 @@ const products = [
     ram: '32GB',
     price: 2800,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s23_ultra.jpg',
+    image: getProductImage(8),
   },
   {
     id: 9,
@@ -84,7 +113,7 @@ const products = [
     ram: '8GB',
     price: 1200,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad_air.jpg',
+    image: getProductImage(9),
   },
   {
     id: 10,
@@ -93,7 +122,7 @@ const products = [
     ram: '12GB',
     price: 1750,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8.jpg',
+    image: getProductImage(10),
   },
   {
     id: 11,
@@ -102,7 +131,7 @@ const products = [
     ram: '256GB',
     price: 3500,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m2.jpg',
+    image: getProductImage(11),
   },
   {
     id: 12,
@@ -111,7 +140,7 @@ const products = [
     ram: '12GB',
     price: 4000,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_fold_5.jpg',
+    image: getProductImage(12),
   },
   {
     id: 13,
@@ -120,7 +149,7 @@ const products = [
     ram: '16GB',
     price: 1800,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_14_pro_max.jpg',
+    image: getProductImage(13),
   },
   {
     id: 14,
@@ -129,7 +158,7 @@ const products = [
     ram: '8GB',
     price: 900,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_a54.jpg',
+    image: getProductImage(14),
   },
   {
     id: 15,
@@ -138,7 +167,7 @@ const products = [
     ram: '16GB',
     price: 1600,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/o/n/oneplus_12.jpg',
+    image: getProductImage(15),
   },
   {
     id: 16,
@@ -147,7 +176,7 @@ const products = [
     ram: '512GB',
     price: 2500,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/s/asus_vivobook.jpg',
+    image: getProductImage(16),
   },
   {
     id: 17,
@@ -156,7 +185,7 @@ const products = [
     ram: '16GB',
     price: 1100,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_13_mini.jpg',
+    image: getProductImage(17),
   },
   {
     id: 18,
@@ -165,7 +194,7 @@ const products = [
     ram: '8GB',
     price: 2300,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_z_flip.jpg',
+    image: getProductImage(18),
   },
   {
     id: 19,
@@ -174,7 +203,7 @@ const products = [
     ram: '8GB',
     price: 1400,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_tablet.jpg',
+    image: getProductImage(19),
   },
   {
     id: 20,
@@ -183,7 +212,7 @@ const products = [
     ram: '12GB',
     price: 2100,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/o/sony_xperia_1.jpg',
+    image: getProductImage(20),
   },
   {
     id: 21,
@@ -192,7 +221,7 @@ const products = [
     ram: '16GB',
     price: 800,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/n/o/nothing_phone.jpg',
+    image: getProductImage(21),
   },
 ];
 
@@ -262,6 +291,9 @@ export default function ProductPage() {
   return (
     <div className="product-category-page">
       <Header />
+      
+      <ProductCarousel />
+      
       <main className="category-layout container">
         <aside className="sidebar">
           <div className="sidebar-card">

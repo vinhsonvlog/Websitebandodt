@@ -4,13 +4,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
+// Helper function để lấy đường dẫn hình ảnh
+const getProductImage = (productId) => {
+  const imageMap = {
+    1: '/images/products/iphone-xs-max.jpg',
+    2: '/images/products/iphone-15-pro.jpg',
+    3: '/images/products/samsung-s24.jpg',
+  };
+  return imageMap[productId] || '/images/products/placeholder.jpg';
+};
+
 const allProducts = [
   {
     id: 1,
     name: 'Apple iPhone 15 Pro',
     brand: 'Apple',
     price: '23.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg',
+    image: getProductImage(2),
     screen: '6.1 inch Super Retina',
     mainCamera: '48MP+12MP',
     frontCamera: '12MP',
@@ -25,7 +35,7 @@ const allProducts = [
     name: 'Samsung Galaxy S24',
     brand: 'Samsung',
     price: '19.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg',
+    image: getProductImage(3),
     screen: '6.1 inch Super Amoled',
     mainCamera: '50MP+12MP',
     frontCamera: '12MP',
@@ -40,7 +50,7 @@ const allProducts = [
     name: 'Google Pixel 8 Pro',
     brand: 'Google',
     price: '27.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8_pro.jpg',
+    image: getProductImage(10),
     screen: '6.7 inch Amoled',
     mainCamera: '50MP+48MP',
     frontCamera: '10.5MP',
@@ -55,7 +65,7 @@ const allProducts = [
     name: 'iPhone XS Max',
     brand: 'Apple',
     price: '15.990.000đ',
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg',
+    image: getProductImage(1),
     screen: '6.5 inch Super Retina',
     mainCamera: '12MP+12MP',
     frontCamera: '7MP',
