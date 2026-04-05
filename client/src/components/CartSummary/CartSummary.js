@@ -1,10 +1,13 @@
-import './CartSummary.css';
+import "./CartSummary.css";
+import { useNavigate } from "react-router-dom";
 
 function formatPrice(value) {
-  return `${new Intl.NumberFormat('vi-VN').format(value)} d`;
+  return `${new Intl.NumberFormat("vi-VN").format(value)} d`;
 }
 
 function CartSummary({ subtotal, shippingFee, additionalFee, total }) {
+  const navigate = useNavigate();
+
   return (
     <aside className="cart-summary" aria-label="Thong tin gio hang">
       <h2>Thong tin gio hang</h2>
@@ -26,7 +29,11 @@ function CartSummary({ subtotal, shippingFee, additionalFee, total }) {
           <dd>{formatPrice(total)}</dd>
         </div>
       </dl>
-      <button type="button" className="cart-summary__checkout">
+      <button
+        type="button"
+        className="cart-summary__checkout"
+        onClick={() => navigate("/checkout")}
+      >
         Den thanh toan
       </button>
     </aside>
