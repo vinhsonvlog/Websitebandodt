@@ -88,57 +88,57 @@ function AppRoutes({ session, onAuthSuccess, onLogout }) {
 
       <Route
         path="/products"
-        element={requireAuth(
-          <ProductListPage session={session} onLogout={onLogout} />,
-        )}
+        element={
+          <ProductListPage />
+        }
       />
       <Route
         path="/products/:id"
-        element={requireAuth(
-          <ProductDetailPage session={session} onLogout={onLogout} />,
-        )}
+        element={
+          <ProductDetailPage />,
+        }
       />
       <Route
         path="/product/:id"
-        element={requireAuth(
-          <ProductDetailPage session={session} onLogout={onLogout} />,
-        )}
+        element={
+          <ProductDetailPage />,
+        }
       />
       <Route
         path="/catalog"
-        element={requireAuth(
-          <ProductPage session={session} onLogout={onLogout} />,
-        )}
+        element={
+          <ProductPage/>,
+        }
       />
       <Route
         path="/comparison"
-        element={requireAuth(
-          <ComparisonPage session={session} onLogout={onLogout} />,
-        )}
+        element={
+          <ComparisonPage />,
+        }
       />
-      <Route path="/reviews" element={requireAuth(<ProductReviewPage />)} />
-      <Route path="/cart" element={requireAuth(<CartPage />)} />
-      <Route path="/checkout" element={requireAuth(<CheckoutPage />)} />
-      <Route path="/orders" element={requireAuth(<MyOrdersPage />)} />
+      <Route path="/reviews" element={<ProductReviewPage />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/orders" element={<MyOrdersPage />} />
 
       {/* ADMIN ROUTES */}
-      <Route path="/admin" element={requireAuth(<ProductDashboard />)} />
+      <Route path="/admin" element={<ProductDashboard />} />
       <Route
         path="/admin/products"
-        element={requireAuth(<ProductDashboard />)}
+        element={<ProductDashboard />}
       />
-      <Route path="/admin/products/add" element={requireAuth(<AddProduct />)} />
-      <Route path="/admin/users" element={requireAuth(<UserDashboard />)} />
+      <Route path="/admin/products/add" element={<AddProduct />} />
+      <Route path="/admin/users" element={<UserDashboard />} />
 
       {/* PROFILE UI */}
-      <Route path="/profile" element={requireAuth(<ProfileLayout />)}>
+      <Route path="/profile" element={<ProfileLayout />}>
         <Route index element={<ProfilePage />} />
         <Route path="orders" element={<MyOrdersPage />} />
         <Route path="vouchers" element={<div>Voucher Page (Mock)</div>} />
       </Route>
 
       {/* CHAT SUPPORT UI */}
-      <Route path="/support" element={requireAuth(<ChatSupportPage />)} />
+      <Route path="/support" element={<ChatSupportPage />} />
 
       {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />
