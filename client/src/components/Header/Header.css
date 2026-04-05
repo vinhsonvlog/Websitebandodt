@@ -1,0 +1,248 @@
+/* HEADER CSS */
+.topbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 15px 0;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.topbar-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  color: #1d1d1f;
+}
+.logo span {
+  color: #0066cc;
+} /* Màu primary */
+
+.category-wrapper {
+  position: relative;
+}
+
+.btn-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e6f2ff;
+  color: #0066cc;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-category:hover {
+  background: #d0e7ff;
+}
+
+.category-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 8px;
+  z-index: 10;
+}
+
+.category-item {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #1d1d1f;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.category-item:hover {
+  background-color: #f5f5f7;
+}
+
+.category-item:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.category-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 4px 6px 4px 16px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.search-bar:focus-within {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+/* Tìm đoạn này và thay thế nhé */
+.search-bar input {
+  border: none !important; /* Bắt buộc bỏ viền input */
+  outline: none !important; /* Bắt buộc bỏ viền xanh mặc định của trình duyệt */
+  box-shadow: none !important; /* Đảm bảo không có bóng mờ nào bên trong */
+  background: transparent;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 10px;
+  color: #86868b;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.actions .btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-products {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+.btn-products:hover {
+  background: #e5e5ea;
+}
+.btn-cart {
+  background: transparent;
+  color: #1d1d1f;
+  border: 1px solid #e5e5e5 !important;
+}
+.btn-cart:hover {
+  border-color: #1d1d1f !important;
+}
+.btn-login {
+  background: #0066cc;
+  color: white;
+}
+.btn-login:hover {
+  background: #005bb5;
+  transform: translateY(-1px);
+}
+
+.avatar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0066cc, #3e8be0);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.25);
+}
+
+.avatar-link:hover .avatar-circle {
+  transform: translateY(-1px);
+}
+
+.avatar-menu {
+  position: relative;
+}
+
+.avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 190px;
+  background: #ffffff;
+  border: 1px solid #e7ecf3;
+  border-radius: 12px;
+  box-shadow: 0 16px 30px rgba(17, 25, 40, 0.12);
+  padding: 8px;
+  z-index: 200;
+}
+
+.avatar-email {
+  padding: 10px 10px 8px;
+  font-size: 12px;
+  color: #556070;
+  border-bottom: 1px solid #eef2f6;
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+
+.avatar-dropdown-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1d1d1f;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.avatar-dropdown-item:hover {
+  background: #f2f7ff;
+  color: #005bb5;
+}
+
+@media (max-width: 768px) {
+  .topbar-content {
+    flex-wrap: wrap;
+  }
+  .search-bar {
+    order: 3;
+    min-width: 100%;
+    margin-top: 10px;
+  }
+}
