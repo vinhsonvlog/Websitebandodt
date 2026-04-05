@@ -1,206 +1,235 @@
-import { useMemo, useState, useEffect } from 'react';
-import './ProductPage.css';
-import { Link } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import { useMemo, useState, useEffect } from "react";
+import "./ProductPage.css";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const products = [
   {
     id: 1,
-    name: 'iPhone XS Max',
-    brand: 'Apple',
-    ram: '16GB',
+    name: "iPhone XS Max",
+    brand: "Apple",
+    ram: "16GB",
     price: 1000,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_xs_max_2_1.jpg",
   },
   {
     id: 2,
-    name: 'iPhone 15 Pro',
-    brand: 'Apple',
-    ram: '32GB',
+    name: "iPhone 15 Pro",
+    brand: "Apple",
+    ram: "32GB",
     price: 2000,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_pro_select_purple_1.jpg",
   },
   {
     id: 3,
-    name: 'Samsung S24',
-    brand: 'Samsung',
-    ram: '16GB',
+    name: "Samsung S24",
+    brand: "Samsung",
+    ram: "16GB",
     price: 2400,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s24_blue.jpg",
   },
   {
     id: 4,
-    name: 'Samsung A35',
-    brand: 'Samsung',
-    ram: '8GB',
+    name: "Samsung A35",
+    brand: "Samsung",
+    ram: "8GB",
     price: 700,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_galaxy_a35.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_galaxy_a35.jpg",
   },
   {
     id: 5,
-    name: 'Laptop Sony',
-    brand: 'Sony',
-    ram: '128GB',
+    name: "Laptop Sony",
+    brand: "Sony",
+    ram: "128GB",
     price: 2200,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_sony.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_sony.jpg",
   },
   {
     id: 6,
-    name: 'Laptop Dell',
-    brand: 'Dell',
-    ram: '256GB',
+    name: "Laptop Dell",
+    brand: "Dell",
+    ram: "256GB",
     price: 3000,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_dell.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop_dell.jpg",
   },
   {
     id: 7,
-    name: 'iPhone 15',
-    brand: 'Apple',
-    ram: '16GB',
+    name: "iPhone 15",
+    brand: "Apple",
+    ram: "16GB",
     price: 1500,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_select_black_1.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_15_select_black_1.jpg",
   },
   {
     id: 8,
-    name: 'Samsung S23 Ultra',
-    brand: 'Samsung',
-    ram: '32GB',
+    name: "Samsung S23 Ultra",
+    brand: "Samsung",
+    ram: "32GB",
     price: 2800,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s23_ultra.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_s23_ultra.jpg",
   },
   {
     id: 9,
-    name: 'iPad Air',
-    brand: 'Apple',
-    ram: '8GB',
+    name: "iPad Air",
+    brand: "Apple",
+    ram: "8GB",
     price: 1200,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad_air.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad_air.jpg",
   },
   {
     id: 10,
-    name: 'Google Pixel 8',
-    brand: 'Google',
-    ram: '12GB',
+    name: "Google Pixel 8",
+    brand: "Google",
+    ram: "12GB",
     price: 1750,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_8.jpg",
   },
   {
     id: 11,
-    name: 'MacBook Air M2',
-    brand: 'Apple',
-    ram: '256GB',
+    name: "MacBook Air M2",
+    brand: "Apple",
+    ram: "256GB",
     price: 3500,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m2.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m2.jpg",
   },
   {
     id: 12,
-    name: 'Samsung Fold 5',
-    brand: 'Samsung',
-    ram: '12GB',
+    name: "Samsung Fold 5",
+    brand: "Samsung",
+    ram: "12GB",
     price: 4000,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_fold_5.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_fold_5.jpg",
   },
   {
     id: 13,
-    name: 'iPhone 14 Pro Max',
-    brand: 'Apple',
-    ram: '16GB',
+    name: "iPhone 14 Pro Max",
+    brand: "Apple",
+    ram: "16GB",
     price: 1800,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_14_pro_max.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_14_pro_max.jpg",
   },
   {
     id: 14,
-    name: 'Samsung Galaxy A54',
-    brand: 'Samsung',
-    ram: '8GB',
+    name: "Samsung Galaxy A54",
+    brand: "Samsung",
+    ram: "8GB",
     price: 900,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_a54.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_a54.jpg",
   },
   {
     id: 15,
-    name: 'OnePlus 12',
-    brand: 'OnePlus',
-    ram: '16GB',
+    name: "OnePlus 12",
+    brand: "OnePlus",
+    ram: "16GB",
     price: 1600,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/o/n/oneplus_12.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/o/n/oneplus_12.jpg",
   },
   {
     id: 16,
-    name: 'Laptop ASUS VivoBook',
-    brand: 'ASUS',
-    ram: '512GB',
+    name: "Laptop ASUS VivoBook",
+    brand: "ASUS",
+    ram: "512GB",
     price: 2500,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/s/asus_vivobook.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/s/asus_vivobook.jpg",
   },
   {
     id: 17,
-    name: 'iPhone 13 Mini',
-    brand: 'Apple',
-    ram: '16GB',
+    name: "iPhone 13 Mini",
+    brand: "Apple",
+    ram: "16GB",
     price: 1100,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_13_mini.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone_13_mini.jpg",
   },
   {
     id: 18,
-    name: 'Samsung Galaxy Z Flip',
-    brand: 'Samsung',
-    ram: '8GB',
+    name: "Samsung Galaxy Z Flip",
+    brand: "Samsung",
+    ram: "8GB",
     price: 2300,
     rating: 5,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_z_flip.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung_z_flip.jpg",
   },
   {
     id: 19,
-    name: 'Google Pixel Tablet',
-    brand: 'Google',
-    ram: '8GB',
+    name: "Google Pixel Tablet",
+    brand: "Google",
+    ram: "8GB",
     price: 1400,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_tablet.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/g/o/google_pixel_tablet.jpg",
   },
   {
     id: 20,
-    name: 'Sony Xperia 1',
-    brand: 'Sony',
-    ram: '12GB',
+    name: "Sony Xperia 1",
+    brand: "Sony",
+    ram: "12GB",
     price: 2100,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/o/sony_xperia_1.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/o/sony_xperia_1.jpg",
   },
   {
     id: 21,
-    name: 'Nothing Phone',
-    brand: 'Nothing',
-    ram: '16GB',
+    name: "Nothing Phone",
+    brand: "Nothing",
+    ram: "16GB",
     price: 800,
     rating: 4,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/n/o/nothing_phone.jpg',
+    image:
+      "https://cdn2.cellphones.com.vn/insecure/rs:fill:400:400/q:90/plain/https://cellphones.com.vn/media/catalog/product/n/o/nothing_phone.jpg",
   },
 ];
 
-const brands = ['Apple', 'Samsung', 'Sony', 'Dell', 'Google', 'ASUS', 'OnePlus', 'Nothing'];
-const ramOptions = ['8GB', '12GB', '16GB', '32GB', '128GB', '256GB', '512GB'];
+const brands = [
+  "Apple",
+  "Samsung",
+  "Sony",
+  "Dell",
+  "Google",
+  "ASUS",
+  "OnePlus",
+  "Nothing",
+];
+const ramOptions = ["8GB", "12GB", "16GB", "32GB", "128GB", "256GB", "512GB"];
 const ratingOptions = [3, 4, 5];
 
-export default function ProductPage() {
+export default function ProductPage({ session }) {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedRams, setSelectedRams] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -211,7 +240,9 @@ export default function ProductPage() {
 
   const toggleFilter = (value, currentValues, setValues) => {
     setValues((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value],
     );
   };
 
@@ -222,8 +253,10 @@ export default function ProductPage() {
       const matchesRam =
         selectedRams.length === 0 || selectedRams.includes(product.ram);
       const matchesRating =
-        selectedRatings.length === 0 || selectedRatings.includes(product.rating);
-      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+        selectedRatings.length === 0 ||
+        selectedRatings.includes(product.rating);
+      const matchesPrice =
+        product.price >= priceRange[0] && product.price <= priceRange[1];
       return matchesBrand && matchesRam && matchesRating && matchesPrice;
     });
   }, [selectedBrands, selectedRams, selectedRatings, priceRange]);
@@ -236,7 +269,7 @@ export default function ProductPage() {
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -248,20 +281,20 @@ export default function ProductPage() {
     setCompareIds((prev) =>
       prev.includes(productId)
         ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
+        : [...prev, productId],
     );
   };
 
   const handleGoToComparison = () => {
     if (compareIds.length >= 2) {
-      const ids = compareIds.join(',');
+      const ids = compareIds.join(",");
       window.location.href = `/comparison?ids=${ids}`;
     }
   };
 
   return (
     <div className="product-category-page">
-      <Header />
+      <Header session={session} />
       <main className="category-layout container">
         <aside className="sidebar">
           <div className="sidebar-card">
@@ -277,7 +310,9 @@ export default function ProductPage() {
                 min="0"
                 max="4000"
                 value={priceRange[0]}
-                onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                onChange={(e) =>
+                  setPriceRange([Number(e.target.value), priceRange[1]])
+                }
                 className="range-input"
               />
               <input
@@ -285,7 +320,9 @@ export default function ProductPage() {
                 min="0"
                 max="4000"
                 value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                onChange={(e) =>
+                  setPriceRange([priceRange[0], Number(e.target.value)])
+                }
                 className="range-input"
               />
             </div>
@@ -297,7 +334,9 @@ export default function ProductPage() {
                   <input
                     type="checkbox"
                     checked={selectedBrands.includes(brand)}
-                    onChange={() => toggleFilter(brand, selectedBrands, setSelectedBrands)}
+                    onChange={() =>
+                      toggleFilter(brand, selectedBrands, setSelectedBrands)
+                    }
                   />
                   <span>{brand}</span>
                 </label>
@@ -311,7 +350,9 @@ export default function ProductPage() {
                   <input
                     type="checkbox"
                     checked={selectedRams.includes(ram)}
-                    onChange={() => toggleFilter(ram, selectedRams, setSelectedRams)}
+                    onChange={() =>
+                      toggleFilter(ram, selectedRams, setSelectedRams)
+                    }
                   />
                   <span>{ram}</span>
                 </label>
@@ -325,10 +366,12 @@ export default function ProductPage() {
                   <input
                     type="checkbox"
                     checked={selectedRatings.includes(rating)}
-                    onChange={() => toggleFilter(rating, selectedRatings, setSelectedRatings)}
+                    onChange={() =>
+                      toggleFilter(rating, selectedRatings, setSelectedRatings)
+                    }
                   />
                   <span>
-                    {'★'.repeat(rating)} {rating} sao
+                    {"★".repeat(rating)} {rating} sao
                   </span>
                 </label>
               ))}
@@ -347,7 +390,7 @@ export default function ProductPage() {
                 {filteredProducts.length} sản phẩm được tìm thấy
               </div>
               {compareIds.length >= 2 && (
-                <button 
+                <button
                   className="btn-compare-view"
                   onClick={handleGoToComparison}
                 >
@@ -367,10 +410,15 @@ export default function ProductPage() {
                   <span className="brand-label">{product.brand}</span>
                   <h2>{product.name}</h2>
                   <div className="rating-row">
-                    <span className="stars">{'★'.repeat(product.rating)}{'☆'.repeat(5 - product.rating)}</span>
+                    <span className="stars">
+                      {"★".repeat(product.rating)}
+                      {"☆".repeat(5 - product.rating)}
+                    </span>
                     <span className="rating-text">{product.rating}.0</span>
                   </div>
-                  <p className="price">{product.price.toLocaleString('en-US')}đ</p>
+                  <p className="price">
+                    {product.price.toLocaleString("en-US")}đ
+                  </p>
                 </div>
                 <div className="product-actions-row">
                   <button className="btn-primary">Thêm vào giỏ</button>
@@ -412,7 +460,7 @@ export default function ProductPage() {
                   return (
                     <button
                       key={pageNum}
-                      className={`page-number ${currentPage === pageNum ? 'active' : ''}`}
+                      className={`page-number ${currentPage === pageNum ? "active" : ""}`}
                       onClick={() => handlePageChange(pageNum)}
                     >
                       {pageNum}
