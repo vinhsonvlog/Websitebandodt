@@ -10,12 +10,9 @@ import {
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
-import ProductListPage from "./pages/ProductListPage/ProductListPage";
 import ComparisonPage from "./pages/ComparisonPage/ComparisonPage";
 import ProductReviewPage from "./pages/ProductReviewPage/ProductReviewPage";
 import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
-import CartPage from "./pages/CartPage/CartPage";
-import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -45,44 +42,61 @@ const AUTH_ROUTES = [
   "/reset-password",
 ];
 
-function AppRoutes({ session, onAuthSuccess }) {
+function AppRoutes({ session, onAuthSuccess, onLogout }) {
   const location = useLocation();
   const isAuthRoute = AUTH_ROUTES.includes(location.pathname);
 
-  // Memoize headline để tránh render lại không cần thiết
   const headline = useMemo(() => {
-    return session?.user?.email ? `Hi, ${session.user.email} (Dev Mode)` : "E-Store";
+    if (!session?.user?.email) {
+      return "E-Store";
+    }
+    return `Hi, ${session.user.email}`;
   }, [session]);
 
   const routes = (
     <Routes>
       {/* PUBLIC ROUTES */}
-      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login onAuthSuccess={onAuthSuccess} />} />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/register"
+        element={<Register onAuthSuccess={onAuthSuccess} />}
+      />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify-otp" element={<VerifyOTP />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 
-      {/* MAIN CONTENT ROUTES */}
-      <Route path="/products" element={<ProductListPage />} />
-      <Route path="/products/:id" element={<ProductDetailPage />} />
-      <Route path="/product/:id" element={<ProductDetailPage />} />
-      <Route path="/catalog" element={<ProductPage />} />
-      <Route path="/comparison" element={<ComparisonPage />} />
+      {/* PRIVATE / MAIN */}
+      <Route
+        path="/"
+        element={<HomePage session={session} onLogout={onLogout} />}
+      />
+      <Route
+        path="/products"
+        element={<ProductPage session={session} onLogout={onLogout} />}
+      />
+      <Route
+        path="/product/:id"
+        element={<ProductDetailPage session={session} onLogout={onLogout} />}
+      />
+      <Route
+        path="/comparison"
+        element={<ComparisonPage session={session} onLogout={onLogout} />}
+      />
       <Route path="/reviews" element={<ProductReviewPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-      <Route path="/orders" element={<MyOrdersPage />} />
 
-      {/* ADMIN ROUTES (Mở tự do để xem giao diện) */}
+      {/* ADMIN ROUTES */}
       <Route path="/admin" element={<ProductDashboard />} />
       <Route path="/admin/products" element={<ProductDashboard />} />
       <Route path="/admin/products/add" element={<AddProduct />} />
       <Route path="/admin/users" element={<UserDashboard />} />
 
       {/* PROFILE UI */}
-      <Route path="/profile" element={<ProfileLayout />}>
+      <Route
+        path="/profile"
+        element={
+          session ? <ProfileLayout /> : <Login onAuthSuccess={onAuthSuccess} />
+        }
+      >
         <Route index element={<ProfilePage />} />
         <Route path="orders" element={<MyOrdersPage />} />
         <Route path="vouchers" element={<div>Voucher Page (Mock)</div>} />
@@ -96,33 +110,22 @@ function AppRoutes({ session, onAuthSuccess }) {
     </Routes>
   );
 
-  // Nếu là trang Login/Register thì bọc trong layout riêng, còn lại hiện routes bình thường
-  if (isAuthRoute) {
-    return (
-      <div className="auth-scene">
-        <main className="auth-content">
-          <h1 className="brand-title">{headline}</h1>
-          {routes}
-        </main>
-      </div>
-    );
+  if (!isAuthRoute) {
+    return routes;
   }
 
-  return routes;
+  return (
+    <div className="auth-scene">
+      <main className="auth-content">
+        <h1 className="brand-title">{headline}</h1>
+        {routes}
+      </main>
+    </div>
+  );
 }
 
 function App() {
-  // TỰ ĐỘNG GIẢ LẬP SESSION KHI SERVER LỖI
-  const [session, setSession] = useState(() => {
-    const saved = loadAuthSession();
-    if (saved) return saved;
-    
-    // Nếu không có session thực, trả về session giả để vào được Admin/Profile
-    return { 
-      token: "mock-token-for-dev", 
-      user: { email: "guest@dev.mode", role: "admin" } 
-    };
-  });
+  const [session, setSession] = useState(() => loadAuthSession());
 
   const handleAuthSuccess = ({ token, user }) => {
     const nextSession = { token, user };
