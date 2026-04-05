@@ -17,7 +17,7 @@ const MOCK_CART = {
       imageUrl: 'https://via.placeholder.com/78x78?text=SP'
     }
   ],
-  shippingFee: 0,
+  shippingFee: 1,
   additionalFee: 0
 };
 
